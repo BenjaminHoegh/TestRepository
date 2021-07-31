@@ -41,6 +41,9 @@ jobs:
         
       - name: Install Parsedown
         run: composer require erusev/parsedown
+      
+      - name: Install Parsedown Extra
+        run: composer require erusev/parsedown-extra
         
       - name: Run psalm
         run: ./vendor/bin/psalm --output-format=github
