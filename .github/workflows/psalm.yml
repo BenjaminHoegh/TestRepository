@@ -29,9 +29,6 @@ jobs:
           update: true
       - name: Check PHP Version
         run: php -v
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate
         
       - name: Cache composer dependencies
         uses: actions/cache@v2
