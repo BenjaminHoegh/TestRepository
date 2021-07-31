@@ -12,4 +12,11 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <UndefinedGlobalVariable>
+            <errorLevel type="suppress">
+                <referencedVariable name="$args" /> <!-- if your variable is "$fooBar" -->
+            </errorLevel>
+        </UndefinedGlobalVariable>
+    </issueHandlers>
 </psalm>
