@@ -14,6 +14,3 @@ jobs:
         uses: docker://vimeo/psalm-github-actions
         with:
            security_analysis: true
-     
-      - name: Psalm - Code quality tool for PHP
-        uses: mickaelandrieu/psalm-ga@v1.1
