@@ -2,13 +2,12 @@ name: Psalm Static analysis
 
 on:
   push:
-     paths:
-        - '**.php'
-        - 'psalm.xml'
+    branches:
+      - main
+      - release/*
   pull_request:
-     paths:
-        - '**.php'
-        - 'psalm.xml'
+     branches:
+       - main
 
 jobs:
   psalm:
