@@ -41,6 +41,7 @@ jobs:
         
       - name: Run psalm
         run: ./vendor/bin/psalm --output-format=github
+        continue-on-error: true
           
       - name: Psalm
         uses: docker://vimeo/psalm-github-actions
