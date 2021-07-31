@@ -15,12 +15,9 @@ jobs:
     name: Psalm
     runs-on: ubuntu-latest
     steps:
-      # —— Setup Github actions 🐙 —————————————————————————————————————————————
-      # https://github.com/actions/checkout (official)
       - name: Git checkout
         uses: actions/checkout@v2
         
-      # https://github.com/shivammathur/setup-php (community)
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -32,7 +29,6 @@ jobs:
       - name: Check PHP Version
         run: php -v
 
-      # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
       - name: Validate composer.json and composer.lock
         run: composer validate
         
