@@ -23,5 +23,10 @@
            <referencedClass name="ParsedownExtra" />
          </errorLevel>
       </UndefinedClass>
+      <UndefinedClass>
+         <errorLevel type="suppress">
+           <referencedClass name="DynamicParent" />
+         </errorLevel>
+      </UndefinedClass>
     </issueHandlers>
 </psalm>
