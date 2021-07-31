@@ -63,18 +63,18 @@ function array_intersect_assoc(array $arr, array $arr2, array ...$arr3)
  * @psalm-template TKey as array-key
  * @psalm-template TValue
  *
- * @param array<mixed, TKey> $arr
- * @param array<mixed, TValue> $arr2
+ * @param array<mixed, TKey> $keys
+ * @param array<mixed, TValue> $values
  *
  * @return (
  *     PHP_MAJOR_VERSION is 8 ?
- *         ($arr is non-empty-array ? non-empty-array<TKey, TValue> : array<TKey, TValue>) :
- *         ($arr is non-empty-array ? non-empty-array<TKey, TValue>|false : array<TKey, TValue>|false
+ *         ($keys is non-empty-array ? non-empty-array<TKey, TValue> : array<TKey, TValue>) :
+ *         ($keys is non-empty-array ? non-empty-array<TKey, TValue>|false : array<TKey, TValue>|false)
  * )
  * @psalm-ignore-falsable-return
  * @psalm-pure
  */
-function array_combine(array $arr, array $arr2)
+function array_combine(array $keys, array $values)
 {
 }
 
@@ -515,6 +515,12 @@ function strtolower(string $str) : string {}
 /**
  * @psalm-pure
  *
+ * @return (
+ *     $str is non-falsy-string
+ *     ? non-falsy-string
+ *     : ($str is non-empty-string ? non-empty-string : string)
+ * )
+ *
  * @psalm-flow ($str) -> return
  */
 function strtoupper(string $str) : string {}
@@ -567,6 +573,7 @@ function rtrim(string $str, string $character_mask = " \t\n\r\0\x0B") : string {
  * @psalm-pure
  *
  * @param string|array $glue
+ * @param array<string|float|int|stringable-object|null|bool> $pieces
  *
  * @return (
  *     $glue is non-empty-string
@@ -588,11 +595,15 @@ function implode($glue, array $pieces = []) : string {}
  * @psalm-pure
  *
  * @param string|array $glue
+ * @param array<string|float|int|stringable-object|null|bool> $pieces
  *
  * @return (
  *     $glue is non-empty-string
  *     ? ($pieces is non-empty-array
- *         ? non-empty-string
+ *         ? ($pieces is array<literal-string|literal-int>
+ *             ? ($glue is literal-string ? non-empty-literal-string : non-empty-string)
+ *             : non-empty-string
+ *         )
  *         : string)
  *     : string
  * )
@@ -757,12 +768,25 @@ function str_ireplace($search, $replace, $subject, &$count = null) {}
 /**
  * @psalm-pure
  *
+ * @return ($input is non-empty-string ? non-empty-string : ($pad_length is positive-int ? non-empty-string: string))
+ *
  * @psalm-flow ($input, $pad_string) -> return
  */
 function str_pad(string $input, int $pad_length, $pad_string = '', int $pad_type = STR_PAD_RIGHT): string {}
 
 /**
  * @psalm-pure
+ *
+ * @todo update $multiplier to be `0|positive-int`
+ * @return (
+ *      $input is non-empty-string
+ *      ? (
+ *          $multiplier is positive-int
+ *          ? non-empty-string
+ *          : ($multiplier is 0 ? '' : string)
+ *      )
+ *      : ($multiplier is 0 ? '' : string)
+ * )
  *
  * @psalm-flow ($input) -> return
  */
@@ -845,6 +869,22 @@ function strrev(string $string): string {}
 /**
  * @psalm-pure
  *
+ * @param 0|1|2 $format
+ * @return (
+ *     $format is 0 ?
+ *     int :
+ *     (
+ *         $format is 1 ?
+ *         list<string> :
+ *         array<int, string>
+ *     )
+ * )
+ */
+function str_word_count(string $string, int $format = 0, string|null $characters = null) {}
+
+/**
+ * @psalm-pure
+ *
  * @param string|string[] $pattern
  * @param string|array<string|int|float> $replacement
  * @param string|array<string|int|float> $subject
@@ -870,7 +910,7 @@ function preg_replace($search, $replace, $subject, int $limit = -1, &$count = nu
 
 /**
  * @param string|string[] $search
- * @param callable(array<int, string>):string $replace
+ * @param callable(string[]):string $replace
  * @param string|array<string|int|float> $subject
  * @param int $count
  * @return ($subject is array ? array<string>|null : string|null)
@@ -1226,13 +1266,22 @@ function base64_encode(string $data) : string {}
  *
  * @param resource|null $context
  *
+ * @return ($format is 0 ? list<string> : array<string, string|list<string>>)|false
+ *
  * @psalm-taint-sink ssrf $url
  */
-function get_headers(string $url, int $format = 0, $context = null) : array {}
+function get_headers(string $url, int $format = 0, $context = null) : array|false {}
 
 /**
  * @psalm-pure
  *
+ * @return array<lowercase-string, string>|false
+ *
  * @psalm-taint-sink ssrf $filename
  */
-function get_meta_tags(string $filename, bool $use_include_path = false) : array {}
+function get_meta_tags(string $filename, bool $use_include_path = false) : array|false {}
+
+/**
+ * @return ($categorize is false ? array<string,int|string|float|bool|null|array|resource> : array<string, array<string,int|string|float|bool|null|array|resource>>)
+ */
+function get_defined_constants(bool $categorize = false): array {}

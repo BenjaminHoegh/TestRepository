@@ -244,6 +244,9 @@ abstract class Atomic implements TypeNode
             case 'callable-object':
                 return new TCallableObject();
 
+            case 'stringable-object':
+                return new Type\Atomic\TObjectWithProperties([], ['__tostring' => 'string']);
+
             case 'class-string':
             case 'interface-string':
                 return new TClassString();
@@ -611,7 +614,7 @@ abstract class Atomic implements TypeNode
         ?string $calling_class = null,
         ?string $calling_function = null,
         bool $replace = true,
-        bool $add_upper_bound = false,
+        bool $add_lower_bound = false,
         int $depth = 0
     ) : self {
         return $this;

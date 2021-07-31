@@ -188,12 +188,12 @@ class AtomicStaticCallAnalyzer
             );
         } else {
             if ($stmt->name instanceof PhpParser\Node\Expr) {
-                $was_inside_use = $context->inside_use;
-                $context->inside_use = true;
+                $was_inside_general_use = $context->inside_general_use;
+                $context->inside_general_use = true;
 
                 ExpressionAnalyzer::analyze($statements_analyzer, $stmt->name, $context);
 
-                $context->inside_use = $was_inside_use;
+                $context->inside_general_use = $was_inside_general_use;
             }
 
             if (!$context->ignore_variable_method) {
@@ -301,11 +301,7 @@ class AtomicStaticCallAnalyzer
             $statements_analyzer,
             $statements_analyzer->getFilePath(),
             false,
-            $context->inside_return
-                || $context->inside_call
-                || $context->inside_use
-                || $context->inside_assignment
-                || $context->inside_conditional
+            $context->insideUse()
         );
 
         $fake_method_exists = false;
@@ -347,11 +343,7 @@ class AtomicStaticCallAnalyzer
                         : null,
                     $statements_analyzer->getFilePath(),
                     true,
-                    $context->inside_return
-                        || $context->inside_call
-                        || $context->inside_use
-                        || $context->inside_assignment
-                        || $context->inside_conditional
+                    $context->insideUse()
                 )) {
                     $mixin_candidates = [];
                     foreach ($class_storage->templatedMixins as $mixin_candidate) {
@@ -471,18 +463,14 @@ class AtomicStaticCallAnalyzer
                     : null,
                 $statements_analyzer->getFilePath(),
                 true,
-                $context->inside_return
-                    || $context->inside_call
-                    || $context->inside_use
-                    || $context->inside_assignment
-                    || $context->inside_conditional
+                $context->insideUse()
             )) {
                 if ($codebase->methods->return_type_provider->has($fq_class_name)) {
                     $return_type_candidate = $codebase->methods->return_type_provider->getReturnType(
                         $statements_analyzer,
                         $method_id->fq_class_name,
                         $method_id->method_name,
-                        $stmt->args,
+                        $stmt,
                         $context,
                         new CodeLocation($statements_analyzer->getSource(), $stmt_name),
                         null,

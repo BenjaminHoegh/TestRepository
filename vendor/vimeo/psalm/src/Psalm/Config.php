@@ -547,6 +547,11 @@ class Config
     /** @var list<ConfigIssue> */
     public $config_issues = [];
 
+    /**
+     * @var 'default'|'never'|'always'
+     */
+    public $trigger_error_exits = 'default';
+
     protected function __construct()
     {
         self::$instance = $this;
@@ -844,6 +849,7 @@ class Config
             'reportInfo' => 'report_info',
             'restrictReturnTypes' => 'restrict_return_types',
             'limitMethodComplexity' => 'limit_method_complexity',
+            'triggerErrorExits' => 'trigger_error_exits',
         ];
 
         foreach ($booleanAttributes as $xmlName => $internalName) {
@@ -889,8 +895,19 @@ class Config
 
         $config->cache_directory .= DIRECTORY_SEPARATOR . sha1($base_dir);
 
+        $cwd = null;
+
+        if ($config->resolve_from_config_file) {
+            $cwd = getcwd();
+            chdir($config->base_dir);
+        }
+
         if (is_dir($config->cache_directory) === false && @mkdir($config->cache_directory, 0777, true) === false) {
             trigger_error('Could not create cache directory: ' . $config->cache_directory, E_USER_ERROR);
+        }
+
+        if ($cwd) {
+            chdir($cwd);
         }
 
         if (isset($config_xml['serializer'])) {

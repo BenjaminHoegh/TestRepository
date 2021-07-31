@@ -77,7 +77,7 @@ class Context
      *
      * @var bool
      */
-    public $inside_use = false;
+    public $inside_general_use = false;
 
     /**
      * Whether or not we're inside a return expression
@@ -366,6 +366,11 @@ class Context
      * @var bool
      */
     public $has_returned = false;
+
+    /**
+     * @var array<string, bool>
+     */
+    public $vars_from_global = [];
 
     public function __construct(?string $self = null)
     {
@@ -830,5 +835,16 @@ class Context
         foreach ($function_storage->throws as $possibly_thrown_exception => $_) {
             $this->possibly_thrown_exceptions[$possibly_thrown_exception][$hash] = $codelocation;
         }
+    }
+
+    public function insideUse(): bool
+    {
+        return $this->inside_assignment
+            || $this->inside_return
+            || $this->inside_call
+            || $this->inside_general_use
+            || $this->inside_conditional
+            || $this->inside_throw
+            || $this->inside_isset;
     }
 }

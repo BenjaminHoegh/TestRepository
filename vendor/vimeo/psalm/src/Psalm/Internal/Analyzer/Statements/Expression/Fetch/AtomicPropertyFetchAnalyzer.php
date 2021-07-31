@@ -16,6 +16,7 @@ use Psalm\Internal\Codebase\TaintFlowGraph;
 use Psalm\Internal\DataFlow\DataFlowNode;
 use Psalm\Internal\Type\TemplateInferredTypeReplacer;
 use Psalm\Internal\Type\TemplateResult;
+use Psalm\Internal\Type\TypeExpander;
 use Psalm\Issue\DeprecatedProperty;
 use Psalm\Issue\ImpurePropertyFetch;
 use Psalm\Issue\InternalProperty;
@@ -66,7 +67,8 @@ class AtomicPropertyFetchAnalyzer
         Type\Atomic $lhs_type_part,
         string $prop_name,
         bool &$has_valid_fetch_type,
-        array &$invalid_fetch_types
+        array &$invalid_fetch_types,
+        bool $is_static_access = false
     ) : void {
         if ($lhs_type_part instanceof TNull) {
             return;
@@ -311,7 +313,13 @@ class AtomicPropertyFetchAnalyzer
             )
         ) {
             $property_id = $context->self . '::$' . $prop_name;
-        } elseif (!$naive_property_exists) {
+        } elseif (!$naive_property_exists
+            || (!$is_static_access
+                // when property existence is asserted by a plugin it doesn't necessarily has storage
+                && $codebase->properties->hasStorage($property_id)
+                && $codebase->properties->getStorage($property_id)->is_static
+            )
+        ) {
             self::handleNonExistentProperty(
                 $statements_analyzer,
                 $codebase,
@@ -344,6 +352,9 @@ class AtomicPropertyFetchAnalyzer
             }
         }
 
+        // FIXME: the following line look superfluous, but removing it makes
+        // Psalm\Tests\PropertyTypeTest::testValidCode with data set "callInParentContext"
+        // fail
         $declaring_property_class = $codebase->properties->getDeclaringClassForProperty(
             $property_id,
             true,
@@ -380,20 +391,9 @@ class AtomicPropertyFetchAnalyzer
         );
 
         if (isset($declaring_class_storage->properties[$prop_name])) {
-            $property_storage = $declaring_class_storage->properties[$prop_name];
+            self::checkPropertyDeprecation($prop_name, $declaring_property_class, $stmt, $statements_analyzer);
 
-            if ($property_storage->deprecated) {
-                if (IssueBuffer::accepts(
-                    new DeprecatedProperty(
-                        $property_id . ' is marked deprecated',
-                        new CodeLocation($statements_analyzer->getSource(), $stmt),
-                        $property_id
-                    ),
-                    $statements_analyzer->getSuppressedIssues()
-                )) {
-                    // fall through
-                }
-            }
+            $property_storage = $declaring_class_storage->properties[$prop_name];
 
             if ($context->self && !NamespaceAnalyzer::isWithin($context->self, $property_storage->internal)) {
                 if (IssueBuffer::accepts(
@@ -481,6 +481,36 @@ class AtomicPropertyFetchAnalyzer
         }
     }
 
+    public static function checkPropertyDeprecation(
+        string $prop_name,
+        string $declaring_property_class,
+        PhpParser\Node\Expr\PropertyFetch $stmt,
+        StatementsAnalyzer $statements_analyzer
+    ): void {
+        $property_id = $declaring_property_class . '::$' . $prop_name;
+        $codebase = $statements_analyzer->getCodebase();
+        $declaring_class_storage = $codebase->classlike_storage_provider->get(
+            $declaring_property_class
+        );
+
+        if (isset($declaring_class_storage->properties[$prop_name])) {
+            $property_storage = $declaring_class_storage->properties[$prop_name];
+
+            if ($property_storage->deprecated) {
+                if (IssueBuffer::accepts(
+                    new DeprecatedProperty(
+                        $property_id . ' is marked deprecated',
+                        new CodeLocation($statements_analyzer->getSource(), $stmt),
+                        $property_id
+                    ),
+                    $statements_analyzer->getSuppressedIssues()
+                )) {
+                    // fall through
+                }
+            }
+        }
+    }
+
     private static function propertyFetchCanBeAnalyzed(
         StatementsAnalyzer $statements_analyzer,
         \Psalm\Codebase $codebase,
@@ -528,7 +558,13 @@ class AtomicPropertyFetchAnalyzer
             $has_magic_getter = true;
 
             if (isset($class_storage->pseudo_property_get_types['$' . $prop_name])) {
-                $stmt_type = clone $class_storage->pseudo_property_get_types['$' . $prop_name];
+                $stmt_type = TypeExpander::expandUnion(
+                    $codebase,
+                    clone $class_storage->pseudo_property_get_types['$' . $prop_name],
+                    $class_storage->name,
+                    $class_storage->name,
+                    $class_storage->parent_class
+                );
 
                 if ($class_storage->template_types) {
                     if (!$lhs_type_part instanceof TGenericObject) {

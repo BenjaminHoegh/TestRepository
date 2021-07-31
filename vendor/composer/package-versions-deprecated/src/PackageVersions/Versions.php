@@ -60,10 +60,10 @@ final class Versions
   'symfony/polyfill-php80' => 'v1.23.1@1100343ed1a92e3a38f9ae122fc0eb21602547be',
   'symfony/service-contracts' => 'v2.4.0@f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb',
   'symfony/string' => 'v5.3.3@bd53358e3eccec6a670b5f33ab680d8dbe1d4ae1',
-  'vimeo/psalm' => '4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69',
+  'vimeo/psalm' => '4.9.0@c62adf965241f65aa4f899a050a94b70bbce19fd',
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
   'webmozart/path-util' => '2.3.0@d939f7edc24c9a1bb9c0dee5cb05d8e859490725',
-  '__root__' => 'dev-master@c68cb6f13aebfb9e48bb8b4771da91146609ac2b',
+  '__root__' => 'dev-master@d2ce1b8c08820005c9525f3ba64a24e748486f7b',
 );
 
     private function __construct()

@@ -2,6 +2,7 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\Assignment;
 
 use PhpParser;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\PropertyProperty;
 use Psalm\CodeLocation;
@@ -19,6 +20,7 @@ use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Internal\Codebase\TaintFlowGraph;
 use Psalm\Internal\DataFlow\DataFlowNode;
 use Psalm\Internal\Type\Comparator\UnionTypeComparator;
+use Psalm\Internal\Type\TypeExpander;
 use Psalm\Issue\DeprecatedProperty;
 use Psalm\Issue\ImplicitToStringCast;
 use Psalm\Issue\ImpurePropertyAssignment;
@@ -403,6 +405,16 @@ class InstancePropertyAssignmentAnalyzer
     ): void {
         foreach ($stmt->props as $prop) {
             if ($prop->default) {
+                if ($stmt->isReadonly()) {
+                    IssueBuffer::add(
+                        new InvalidPropertyAssignment(
+                            'Readonly property ' . $context->self . '::$' . $prop->name->name
+                                . ' cannot have a default',
+                            new CodeLocation($statements_analyzer->getSource(), $prop->default)
+                        )
+                    );
+                }
+
                 ExpressionAnalyzer::analyze($statements_analyzer, $prop->default, $context);
 
                 if ($prop_default_type = $statements_analyzer->node_data->getType($prop->default)) {
@@ -608,12 +620,12 @@ class InstancePropertyAssignmentAnalyzer
         string $prop_name,
         ?string &$var_id
     ): array {
-        $was_inside_use = $context->inside_use;
-        $context->inside_use = true;
+        $was_inside_general_use = $context->inside_general_use;
+        $context->inside_general_use = true;
 
         ExpressionAnalyzer::analyze($statements_analyzer, $stmt->var, $context);
 
-        $context->inside_use = $was_inside_use;
+        $context->inside_general_use = $was_inside_general_use;
 
         $lhs_type = $statements_analyzer->node_data->getType($stmt->var);
 
@@ -994,8 +1006,13 @@ class InstancePropertyAssignmentAnalyzer
 
             if ($var_id) {
                 if (isset($class_storage->pseudo_property_set_types['$' . $prop_name])) {
-                    $class_property_type =
-                        clone $class_storage->pseudo_property_set_types['$' . $prop_name];
+                    $class_property_type = TypeExpander::expandUnion(
+                        $codebase,
+                        clone $class_storage->pseudo_property_set_types['$' . $prop_name],
+                        $fq_class_name,
+                        $fq_class_name,
+                        $class_storage->parent_class
+                    );
 
                     $has_regular_setter = true;
 
@@ -1019,54 +1036,14 @@ class InstancePropertyAssignmentAnalyzer
             }
 
             if ($assignment_value) {
-                if ($var_id) {
-                    $context->removeVarFromConflictingClauses(
-                        $var_id,
-                        Type::getMixed(),
-                        $statements_analyzer
-                    );
-
-                    unset($context->vars_in_scope[$var_id]);
-                }
-
-                $old_data_provider = $statements_analyzer->node_data;
-
-                $statements_analyzer->node_data = clone $statements_analyzer->node_data;
-
-                $fake_method_call = new VirtualMethodCall(
-                    $stmt->var,
-                    new VirtualIdentifier('__set', $stmt->name->getAttributes()),
-                    [
-                        new VirtualArg(
-                            new VirtualString(
-                                $prop_name,
-                                $stmt->name->getAttributes()
-                            )
-                        ),
-                        new VirtualArg(
-                            $assignment_value
-                        )
-                    ]
-                );
-
-                $suppressed_issues = $statements_analyzer->getSuppressedIssues();
-
-                if (!in_array('PossiblyNullReference', $suppressed_issues, true)) {
-                    $statements_analyzer->addSuppressedIssues(['PossiblyNullReference']);
-                }
-
-                \Psalm\Internal\Analyzer\Statements\Expression\Call\MethodCallAnalyzer::analyze(
-                    $statements_analyzer,
-                    $fake_method_call,
+                self::analyzeSetCall(
+                    $var_id,
                     $context,
-                    false
+                    $statements_analyzer,
+                    $stmt,
+                    $prop_name,
+                    $assignment_value
                 );
-
-                if (!in_array('PossiblyNullReference', $suppressed_issues, true)) {
-                    $statements_analyzer->removeSuppressedIssues(['PossiblyNullReference']);
-                }
-
-                $statements_analyzer->node_data = $old_data_provider;
             }
 
             /*
@@ -1148,7 +1125,12 @@ class InstancePropertyAssignmentAnalyzer
             $statements_analyzer,
             $context,
             new CodeLocation($statements_analyzer->getSource(), $stmt)
-        )) {
+        )
+        // when property existence is asserted by a plugin it doesn't necessarily has storage
+        || ($codebase->properties->hasStorage($property_id)
+            && $codebase->properties->getStorage($property_id)->is_static
+        )
+        ) {
             if ($stmt->var instanceof PhpParser\Node\Expr\Variable && $stmt->var->name === 'this') {
                 // if this is a proper error, we'll see it on the first pass
                 if ($context->collect_mutations) {
@@ -1503,5 +1485,63 @@ class InstancePropertyAssignmentAnalyzer
         }
 
         return $fleshed_out_type;
+    }
+
+    private static function analyzeSetCall(
+        ?string $var_id,
+        Context $context,
+        StatementsAnalyzer $statements_analyzer,
+        PropertyFetch $stmt,
+        string $prop_name,
+        Expr $assignment_value
+    ): void {
+        if ($var_id) {
+            $context->removeVarFromConflictingClauses(
+                $var_id,
+                Type::getMixed(),
+                $statements_analyzer
+            );
+
+            unset($context->vars_in_scope[$var_id]);
+        }
+
+        $old_data_provider = $statements_analyzer->node_data;
+
+        $statements_analyzer->node_data = clone $statements_analyzer->node_data;
+
+        $fake_method_call = new VirtualMethodCall(
+            $stmt->var,
+            new VirtualIdentifier('__set', $stmt->name->getAttributes()),
+            [
+                new VirtualArg(
+                    new VirtualString(
+                        $prop_name,
+                        $stmt->name->getAttributes()
+                    )
+                ),
+                new VirtualArg(
+                    $assignment_value
+                )
+            ]
+        );
+
+        $suppressed_issues = $statements_analyzer->getSuppressedIssues();
+
+        if (!in_array('PossiblyNullReference', $suppressed_issues, true)) {
+            $statements_analyzer->addSuppressedIssues(['PossiblyNullReference']);
+        }
+
+        \Psalm\Internal\Analyzer\Statements\Expression\Call\MethodCallAnalyzer::analyze(
+            $statements_analyzer,
+            $fake_method_call,
+            $context,
+            false
+        );
+
+        if (!in_array('PossiblyNullReference', $suppressed_issues, true)) {
+            $statements_analyzer->removeSuppressedIssues(['PossiblyNullReference']);
+        }
+
+        $statements_analyzer->node_data = $old_data_provider;
     }
 }

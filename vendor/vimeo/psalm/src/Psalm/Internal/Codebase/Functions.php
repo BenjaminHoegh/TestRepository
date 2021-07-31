@@ -411,7 +411,7 @@ class Functions
             'header', 'header_remove', 'http_response_code', 'setcookie',
 
             // output buffer
-            'ob_start', 'ob_end_clean', 'readfile', 'printf', 'var_dump', 'phpinfo',
+            'ob_start', 'ob_end_clean', 'ob_get_clean', 'readfile', 'printf', 'var_dump', 'phpinfo',
             'ob_implicit_flush', 'vprintf',
 
             // mcrypt
@@ -457,7 +457,7 @@ class Functions
             'set_error_handler', 'user_error', 'trigger_error', 'restore_error_handler',
             'date_default_timezone_set', 'assert_options', 'setlocale',
             'set_exception_handler', 'set_time_limit', 'putenv', 'spl_autoload_register',
-            'spl_autoload_unregister', 'microtime', 'array_rand',
+            'spl_autoload_unregister', 'microtime', 'array_rand', 'set_include_path',
 
             // logging
             'openlog', 'syslog', 'error_log', 'define_syslog_variables',
@@ -493,6 +493,9 @@ class Functions
             // opcache
             'opcache_compile_file', 'opcache_get_configuration', 'opcache_get_status',
             'opcache_invalidate', 'opcache_is_script_cached', 'opcache_reset',
+
+            //gettext
+            'bindtextdomain',
         ];
 
         if (\in_array(strtolower($function_id), $impure_functions, true)) {

@@ -194,12 +194,12 @@ class ForeachAnalyzer
             }
         }
 
-        $was_inside_use = $context->inside_use;
-        $context->inside_use = true;
+        $was_inside_general_use = $context->inside_general_use;
+        $context->inside_general_use = true;
         if (ExpressionAnalyzer::analyze($statements_analyzer, $stmt->expr, $context) === false) {
             return false;
         }
-        $context->inside_use = $was_inside_use;
+        $context->inside_general_use = $was_inside_general_use;
 
         $key_type = null;
         $value_type = null;
@@ -366,8 +366,9 @@ class ForeachAnalyzer
                 ),
                 $statements_analyzer->getSuppressedIssues()
             )) {
-                return false;
             }
+
+            return false;
         } elseif ($iterator_type->isNullable() && !$iterator_type->ignore_nullable_issues) {
             if (IssueBuffer::accepts(
                 new PossiblyNullIterator(
@@ -376,9 +377,13 @@ class ForeachAnalyzer
                 ),
                 $statements_analyzer->getSuppressedIssues()
             )) {
-                return false;
+                // fall through
             }
-        } elseif ($iterator_type->isFalsable() && !$iterator_type->ignore_falsable_issues) {
+
+            return null;
+        }
+
+        if ($iterator_type->isFalsable() && !$iterator_type->ignore_falsable_issues) {
             if (IssueBuffer::accepts(
                 new PossiblyFalseIterator(
                     'Cannot iterate over falsable var ' . $iterator_type,
@@ -386,8 +391,10 @@ class ForeachAnalyzer
                 ),
                 $statements_analyzer->getSuppressedIssues()
             )) {
-                return false;
+                // fall through
             }
+
+            return null;
         }
 
         $has_valid_iterator = false;

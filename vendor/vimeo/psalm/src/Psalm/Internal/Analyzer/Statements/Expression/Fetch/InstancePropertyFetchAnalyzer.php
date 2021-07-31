@@ -32,10 +32,11 @@ class InstancePropertyFetchAnalyzer
         StatementsAnalyzer $statements_analyzer,
         PhpParser\Node\Expr\PropertyFetch $stmt,
         Context $context,
-        bool $in_assignment = false
+        bool $in_assignment = false,
+        bool $is_static_access = false
     ) : bool {
-        $was_inside_use = $context->inside_use;
-        $context->inside_use = true;
+        $was_inside_general_use = $context->inside_general_use;
+        $context->inside_general_use = true;
 
         if (!$stmt->name instanceof PhpParser\Node\Identifier) {
             if (ExpressionAnalyzer::analyze($statements_analyzer, $stmt->name, $context) === false) {
@@ -47,7 +48,7 @@ class InstancePropertyFetchAnalyzer
             return false;
         }
 
-        $context->inside_use = $was_inside_use;
+        $context->inside_general_use = $was_inside_general_use;
 
         if ($stmt->name instanceof PhpParser\Node\Identifier) {
             $prop_name = $stmt->name->name;
@@ -247,7 +248,8 @@ class InstancePropertyFetchAnalyzer
                 $lhs_type_part,
                 $prop_name,
                 $has_valid_fetch_type,
-                $invalid_fetch_types
+                $invalid_fetch_types,
+                $is_static_access
             );
         }
 
@@ -391,6 +393,7 @@ class InstancePropertyFetchAnalyzer
             }
         }
 
+
         if (($stmt_var_type = $statements_analyzer->node_data->getType($stmt->var))
             && $stmt_var_type->hasObjectType()
             && $stmt->name instanceof PhpParser\Node\Identifier
@@ -404,6 +407,7 @@ class InstancePropertyFetchAnalyzer
 
                     $property_id = $lhs_type_part->value . '::$' . $stmt->name->name;
 
+
                     $class_storage = $codebase->classlike_storage_provider->get($lhs_type_part->value);
 
                     AtomicPropertyFetchAnalyzer::processTaints(
@@ -414,6 +418,21 @@ class InstancePropertyFetchAnalyzer
                         $class_storage,
                         $in_assignment
                     );
+
+                    $declaring_property_class = $codebase->properties->getDeclaringClassForProperty(
+                        $property_id,
+                        true,
+                        $statements_analyzer
+                    );
+
+                    if ($declaring_property_class) {
+                        AtomicPropertyFetchAnalyzer::checkPropertyDeprecation(
+                            $stmt->name->name,
+                            $declaring_property_class,
+                            $stmt,
+                            $statements_analyzer
+                        );
+                    }
 
                     $codebase->properties->propertyExists(
                         $property_id,

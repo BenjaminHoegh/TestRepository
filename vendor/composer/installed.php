@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'c68cb6f13aebfb9e48bb8b4771da91146609ac2b',
+        'reference' => 'd2ce1b8c08820005c9525f3ba64a24e748486f7b',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'c68cb6f13aebfb9e48bb8b4771da91146609ac2b',
+            'reference' => 'd2ce1b8c08820005c9525f3ba64a24e748486f7b',
             'dev_requirement' => false,
         ),
         'amphp/amp' => array(
@@ -154,7 +154,7 @@
         'psalm/psalm' => array(
             'dev_requirement' => true,
             'provided' => array(
-                0 => '4.8.1',
+                0 => '4.9.0',
             ),
         ),
         'psr/container' => array(
@@ -281,12 +281,12 @@
             'dev_requirement' => true,
         ),
         'vimeo/psalm' => array(
-            'pretty_version' => '4.8.1',
-            'version' => '4.8.1.0',
+            'pretty_version' => '4.9.0',
+            'version' => '4.9.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../vimeo/psalm',
             'aliases' => array(),
-            'reference' => 'f73f2299dbc59a3e6c4d66cff4605176e728ee69',
+            'reference' => 'c62adf965241f65aa4f899a050a94b70bbce19fd',
             'dev_requirement' => true,
         ),
         'webmozart/assert' => array(

@@ -5,6 +5,7 @@
     targetNamespace="https://getpsalm.org/schema/config"
     elementFormDefault="qualified"
 >
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd" />
     <xs:element name="psalm" type="PsalmType" />
 
     <xs:complexType name="PsalmType">
@@ -59,6 +60,7 @@
         <xs:attribute name="ignoreInternalFunctionFalseReturn" type="xs:boolean" default="true" />
         <xs:attribute name="ignoreInternalFunctionNullReturn" type="xs:boolean" default="true" />
         <xs:attribute name="includePhpVersionsInErrorBaseline" type="xs:boolean" default="false" />
+        <xs:attribute name="inferPropertyTypesFromConstructor" type="xs:boolean" default="true" />
         <xs:attribute name="loadXdebugStub" type="xs:boolean">
             <xs:annotation>
                 <xs:documentation xml:lang="en">
@@ -87,6 +89,7 @@
         <xs:attribute name="reportInfo" type="xs:boolean" default="true" />
         <xs:attribute name="restrictReturnTypes" type="xs:boolean" default="false" />
         <xs:attribute name="limitMethodComplexity" type="xs:boolean" default="false" />
+        <xs:attribute name="triggerErrorExits" type="TriggerErrorExitsType" default="default" />
     </xs:complexType>
 
     <xs:complexType name="ProjectFilesType">
@@ -95,15 +98,18 @@
             <xs:element name="file" minOccurs="0" maxOccurs="unbounded" type="NameAttributeType" />
             <xs:element name="ignoreFiles" minOccurs="0" maxOccurs="1" type="IgnoreFilesType" />
         </xs:choice>
+        <xs:attribute ref="xml:base" />
     </xs:complexType>
 
     <xs:complexType name="TaintAnalysisType">
         <xs:choice maxOccurs="unbounded">
             <xs:element name="ignoreFiles" minOccurs="0" maxOccurs="1" type="IgnoreFilesType" />
         </xs:choice>
+        <xs:attribute ref="xml:base" />
     </xs:complexType>
 
     <xs:complexType name="NameAttributeType">
+        <xs:attribute ref="xml:base" />
         <xs:attribute name="name" type="xs:string" use="required" />
     </xs:complexType>
 
@@ -119,12 +125,14 @@
         </xs:choice>
 
         <xs:attribute name="allowMissingFiles" type="xs:string" />
+        <xs:attribute ref="xml:base" />
     </xs:complexType>
 
     <xs:complexType name="ProjectDirectoryAttributeType">
         <xs:attribute name="name" type="xs:string" use="required" />
         <xs:attribute name="ignoreTypeStats" type="xs:string" />
         <xs:attribute name="useStrictTypes" type="xs:string" />
+        <xs:attribute ref="xml:base" />
     </xs:complexType>
 
     <xs:complexType name="FileExtensionsType">
@@ -137,18 +145,21 @@
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
+        <xs:attribute ref="xml:base" />
     </xs:complexType>
 
     <xs:complexType name="MockClassesType">
         <xs:sequence>
             <xs:element name="class" maxOccurs="unbounded" type="NameAttributeType" />
         </xs:sequence>
+        <xs:attribute ref="xml:base" />
     </xs:complexType>
 
     <xs:complexType name="UniversalObjectCratesType">
         <xs:sequence>
             <xs:element name="class" maxOccurs="unbounded" type="NameAttributeType" />
         </xs:sequence>
+        <xs:attribute ref="xml:base" />
     </xs:complexType>
 
     <xs:complexType name="ExceptionsType">
@@ -156,18 +167,21 @@
             <xs:element name="class" minOccurs="0" maxOccurs="unbounded" type="ExceptionType" />
             <xs:element name="classAndDescendants" minOccurs="0" maxOccurs="unbounded" type="ExceptionType" />
         </xs:sequence>
+        <xs:attribute ref="xml:base" />
     </xs:complexType>
 
     <xs:complexType name="StubsType">
         <xs:sequence>
             <xs:element name="file" maxOccurs="unbounded" type="StubsAttributeType" />
         </xs:sequence>
+        <xs:attribute ref="xml:base" />
     </xs:complexType>
 
     <xs:complexType name="ExitFunctionsType">
         <xs:sequence>
             <xs:element name="function" maxOccurs="unbounded" type="NameAttributeType" />
         </xs:sequence>
+        <xs:attribute ref="xml:base" />
     </xs:complexType>
 
     <xs:complexType name="PluginsType">
@@ -186,6 +200,7 @@
                 </xs:complexType>
             </xs:element>
         </xs:choice>
+        <xs:attribute ref="xml:base" />
     </xs:complexType>
 
     <xs:complexType name="IssueHandlersType">
@@ -462,6 +477,7 @@
             <xs:element name="UnusedReturnValue" type="IssueHandlerType" minOccurs="0" />
             <xs:element name="UnusedVariable" type="IssueHandlerType" minOccurs="0" />
         </xs:choice>
+        <xs:attribute ref="xml:base" />
     </xs:complexType>
 
     <xs:complexType name="IssueHandlerType">
@@ -611,6 +627,7 @@
         <xs:sequence>
             <xs:element name="var" maxOccurs="unbounded" type="IdentifierType" />
         </xs:sequence>
+        <xs:attribute ref="xml:base" />
     </xs:complexType>
 
     <xs:complexType name="IdentifierType">
@@ -628,6 +645,14 @@
             <xs:enumeration value="error"/>
             <xs:enumeration value="info"/>
             <xs:enumeration value="suppress"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TriggerErrorExitsType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="default"/>
+            <xs:enumeration value="never"/>
+            <xs:enumeration value="always"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

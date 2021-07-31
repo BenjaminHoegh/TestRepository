@@ -195,7 +195,11 @@ class ClassLikeNodeScanner
                     $storage->aliases = $this->aliases;
 
                     foreach ($storage->dependent_classlikes as $dependent_name_lc => $_) {
-                        $dependent_storage = $this->codebase->classlike_storage_provider->get($dependent_name_lc);
+                        try {
+                            $dependent_storage = $this->codebase->classlike_storage_provider->get($dependent_name_lc);
+                        } catch (\InvalidArgumentException $exception) {
+                            continue;
+                        }
                         $dependent_storage->populated = false;
                         $this->codebase->classlike_storage_provider->makeNew($dependent_name_lc);
                     }
@@ -1351,7 +1355,7 @@ class ClassLikeNodeScanner
             if (! $property_storage->internal && $var_comment && $var_comment->internal) {
                 $property_storage->internal = NamespaceAnalyzer::getNameSpaceRoot($fq_classlike_name);
             }
-            $property_storage->readonly = $var_comment ? $var_comment->readonly : false;
+            $property_storage->readonly = $stmt->isReadonly() || ($var_comment && $var_comment->readonly);
             $property_storage->allow_private_mutation = $var_comment ? $var_comment->allow_private_mutation : false;
             $property_storage->description = $var_comment ? $var_comment->description : null;
 
