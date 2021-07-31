@@ -12,21 +12,4 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
-    <issueHandlers>
-       <UndefinedClass>
-         <errorLevel type="suppress">
-           <referencedClass name="Parsedown" />
-         </errorLevel>
-      </UndefinedClass>
-      <UndefinedClass>
-         <errorLevel type="suppress">
-           <referencedClass name="ParsedownExtra" />
-         </errorLevel>
-      </UndefinedClass>
-      <UndefinedClass>
-         <errorLevel type="suppress">
-           <referencedClass name="DynamicParent" />
-         </errorLevel>
-      </UndefinedClass>
-    </issueHandlers>
 </psalm>
