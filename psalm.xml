@@ -18,5 +18,15 @@
                 <referencedVariable name="$args" /> <!-- if your variable is "$fooBar" -->
             </errorLevel>
         </UndefinedGlobalVariable>
+        <UndefinedGlobalVariable>
+            <errorLevel type="suppress">
+                <referencedVariable name="$state" /> <!-- if your variable is "$fooBar" -->
+            </errorLevel>
+        </UndefinedGlobalVariable>
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <referencedProperty name="ParsedownExtended::$args" />
+            </errorLevel>
+          </PropertyNotSetInConstructor>
     </issueHandlers>
 </psalm>
