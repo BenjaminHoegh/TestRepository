@@ -60,7 +60,6 @@ jobs:
       
       - name: Run static analysis
         run: composer run sa
-        continue-on-error: true
 
       - name: Check coding standard
         run: composer run cs
