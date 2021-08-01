@@ -21,7 +21,6 @@ $config
         '@PhpCsFixer' => true,
         'general_phpdoc_annotation_remove' => ['annotations' => ['expectedDeprecation']],
     ])
-    ->setFinder($finder)
-;
+    ->setFinder($finder);
 
 return $config;
