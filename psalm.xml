@@ -15,7 +15,7 @@
     <issueHandlers>
         <UndefinedGlobalVariable>
             <errorLevel type="suppress">
-                <referencedVariable name="$args" /> <!-- if your variable is "$fooBar" -->
+                <referencedVariable name="$this->args" /> <!-- if your variable is "$fooBar" -->
             </errorLevel>
         </UndefinedGlobalVariable>
         <UndefinedGlobalVariable>
