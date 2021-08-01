@@ -46,7 +46,7 @@ jobs:
         run: composer require erusev/parsedown-extra
         
       - name: Run psalm
-        run: ./vendor/bin/psalm --output-format=github
+        run: ./vendor/bin/psalm --output-format=github --config=psalm.xml
         continue-on-error: true
           
       - name: Psalm
