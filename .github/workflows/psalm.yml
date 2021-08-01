@@ -65,16 +65,5 @@ jobs:
         run: composer run sa
         continue-on-error: true
 
-      - name: Run test suite
-        run: composer run test
-        continue-on-error: true
-
       - name: Check coding standard
         run: composer run cs
-        continue-on-error: true
-      
-      - name: Run init
-        run: vendor/bin/psalm --init . 5
-      
-      - name: Run psalm
-        run: vendor/bin/psalm

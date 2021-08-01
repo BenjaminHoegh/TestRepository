@@ -13,10 +13,8 @@
     },
     "scripts": {
         "lint": "for file in `git ls-files '*.php' ':!:vendor/*' ':!:*/vendor/*'`; do php -l $file; done",
-        "test": "vendor/bin/phpunit",
-        "test:coverage": "vendor/bin/phpunit --coverage-html build/coverage",
         "psalm": "vendor/bin/psalm --no-cache",
-        "cs": "php-cs-fixer fix --dry-run --diff --diff-format udiff",
+        "cs": "php-cs-fixer fix --dry-run --diff udiff",
         "sa": [
             "@psalm"
         ],
@@ -24,7 +22,6 @@
             "composer validate --strict",
             "@lint",
             "@sa",
-            "@test",
             "@cs"
         ]
     },

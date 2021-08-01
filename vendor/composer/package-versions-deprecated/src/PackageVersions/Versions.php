@@ -65,7 +65,7 @@ final class Versions
   'vimeo/psalm' => '4.9.1@7e137f5b95f7394607f5d0631172ff4c2da46781',
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
   'webmozart/path-util' => '2.3.0@d939f7edc24c9a1bb9c0dee5cb05d8e859490725',
-  'benjaminhoegh/testrepository' => 'dev-master@d46d3d943c3d8b88d9bf8184c6ceb94ec99ed7bd',
+  'benjaminhoegh/testrepository' => 'dev-master@1ffc54354cf6467020266f01573e61b1c371ec78',
 );
 
     private function __construct()
