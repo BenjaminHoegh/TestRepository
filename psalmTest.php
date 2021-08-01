@@ -28,6 +28,7 @@ class ParsedownExtended extends DynamicParent
 
     /**
      * Version requirement check.
+     * @var array|null
      */
     public function __construct(array $args = null)
     {
