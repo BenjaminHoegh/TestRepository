@@ -56,9 +56,19 @@ jobs:
             ${{ runner.os }}-composer-
       
       - name: Install dependencies
-        run: composer install -n --prefer-dist
-             composer require erusev/parsedown
-             composer require erusev/parsedown-extra
+        run: |
+          composer install -n --prefer-dist
+          composer require erusev/parsedown
+          composer require erusev/parsedown-extra
+      
+      - name: Run static analysis
+        run: composer run sa
+
+      - name: Run test suite
+        run: composer run test
+
+      - name: Check coding standard
+        run: composer run cs
       
       - name: Run init
         run: vendor/bin/psalm --init . 5
