@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'e0a599e7c2e725d5c6c82ad39dd75313ceb149a3',
+        'reference' => '5cdedaa1922ec40a73facc636612966551a4baf1',
         'name' => 'benjaminhoegh/testrepository',
         'dev' => true,
     ),
@@ -34,7 +34,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'e0a599e7c2e725d5c6c82ad39dd75313ceb149a3',
+            'reference' => '5cdedaa1922ec40a73facc636612966551a4baf1',
             'dev_requirement' => false,
         ),
         'composer/package-versions-deprecated' => array(
