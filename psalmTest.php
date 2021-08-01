@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * 
+ *  DynamicParent
+ * ------------------------------------------------------------------------
+ */
 if (class_exists('ParsedownExtra')) {
     class DynamicParent extends \ParsedownExtra
     {
