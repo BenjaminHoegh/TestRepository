@@ -1704,7 +1704,7 @@ class ParsedownExtended extends DynamicParent
             $this->initBlacklist();
         }
 
-        $this->anchorDuplicates[$str] = !isset($this->anchorDuplicates[$str]) ? 0 : $this->anchorDuplicates[$str];
+        $this->anchorDuplicates[$str] = !isset($this->anchorDuplicates[$str]) ? 0 : ++$this->anchorDuplicates[$str];
 
         $newStr = $str;
 
