@@ -1,18 +1,16 @@
-name: Psalm Static analysis
+name: Run tests
 
 on:
   push:
     branches:
-      - main
       - master
       - release/*
   pull_request:
      branches:
-       - main
        - master
 
 jobs:
-  psalm:
+  test:
     name: Psalm
     runs-on: ubuntu-latest
     steps:
