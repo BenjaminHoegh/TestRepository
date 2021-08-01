@@ -1,9 +1,5 @@
 <?php
-/**
- * 
- *  DynamicParent
- * ------------------------------------------------------------------------
- */
+
 if (class_exists('ParsedownExtra')) {
     class DynamicParent extends \ParsedownExtra
     {
@@ -39,7 +35,7 @@ class ParsedownExtended extends DynamicParent
             $msg_error = 'Version Error.' . PHP_EOL;
             $msg_error .= '  ParsedownToc requires a later version of Parsedown.' . PHP_EOL;
             $msg_error .= '  - Current version : ' . \Parsedown::version . PHP_EOL;
-            $msg_error .= '  - Required version: ' . self::VERSION_PARSEDOWN_REQUIRED .' and later' .PHP_EOL;
+            $msg_error .= '  - Required version: ' . self::VERSION_PARSEDOWN_REQUIRED . ' and later' . PHP_EOL;
             throw new Exception($msg_error);
         }
 
@@ -177,7 +173,6 @@ class ParsedownExtended extends DynamicParent
             $tocHeaders = $this->args['toc']['headings'] ?? ["h1", "h2", "h3", "h4", "h5", "h6"];
             // Check if level are defined as a heading
             if (in_array($level, $tocHeaders)) {
-
                 // Add/stores the heading element info to the ToC list
                 $this->setContentsList(array(
                     'text'  => $text,
@@ -255,7 +250,6 @@ class ParsedownExtended extends DynamicParent
 
             // Check if level are defined as a heading
             if (in_array($level, $headersAllowed)) {
-
                 // Add/stores the heading element info to the ToC list
                 $this->setContentsList(array(
                     'text'  => $text,
@@ -314,7 +308,6 @@ class ParsedownExtended extends DynamicParent
 
     protected function inlineText($text)
     {
-
         $Inline['element']['elements'] = self::pregReplaceElements(
             $this->breaksEnabled ? '/[ ]*+\n/' : '/(?:[ ]*+\\\\|[ ]{2,}+)\n/',
             array(
@@ -726,13 +719,13 @@ class ParsedownExtended extends DynamicParent
     {
         if (preg_match('/(?:\^(?!\^)([^\^ ]*)\^(?!\^))/', $excerpt['text'], $matches)) {
             return [
-             'extent' => strlen($matches[0]),
-             'element' => [
-                 'name' => 'sup',
-                 'text' => $matches[1],
-                 'function' => 'lineElements',
-             ],
-          ];
+                'extent' => strlen($matches[0]),
+                    'element' => [
+                    'name' => 'sup',
+                    'text' => $matches[1],
+                    'function' => 'lineElements',
+                ],
+            ];
         }
     }
 
@@ -750,13 +743,13 @@ class ParsedownExtended extends DynamicParent
     {
         if (preg_match('/(?:~(?!~)([^~ ]*)~(?!~))/', $excerpt['text'], $matches)) {
             return [
-             'extent' => strlen($matches[0]),
-             'element' => [
-                 'name' => 'sub',
-                 'text' => $matches[1],
-                 'function' => 'lineElements',
-             ],
-          ];
+                'extent' => strlen($matches[0]),
+                'element' => [
+                    'name' => 'sub',
+                    'text' => $matches[1],
+                    'function' => 'lineElements',
+                ],
+            ];
         }
     }
 
@@ -866,10 +859,10 @@ class ParsedownExtended extends DynamicParent
     protected function blockMath($line)
     {
         $block = [
-          'element' => [
-             'text' => '',
-          ],
-      ];
+            'element' => [
+                'text' => '',
+            ],
+        ];
 
         if (preg_match('/^(?<!\\\\)(\\\\\[)(?!.)$/', $line['text'])) {
             $block['end'] = '\]';
@@ -898,18 +891,18 @@ class ParsedownExtended extends DynamicParent
         }
 
         if (
-          preg_match('/^(?<!\\\\)(\\\\\])$/', $line['text']) &&
-          $block['end'] === '\]'
-      ) {
+            preg_match('/^(?<!\\\\)(\\\\\])$/', $line['text']) &&
+            $block['end'] === '\]'
+        ) {
             $block['complete'] = true;
             $block['math'] = true;
             $block['element']['text'] =
              "\\[" . $block['element']['text'] . "\\]";
             return $block;
         } elseif (
-          preg_match('/^(?<!\\\\)(\$\$)$/', $line['text']) &&
-          $block['end'] === '$$'
-      ) {
+            preg_match('/^(?<!\\\\)(\$\$)$/', $line['text']) &&
+            $block['end'] === '$$'
+        ) {
             $block['complete'] = true;
             $block['math'] = true;
             $block['element']['text'] = "$$" . $block['element']['text'] . "$$";
@@ -952,7 +945,6 @@ class ParsedownExtended extends DynamicParent
 
         $state = isset($this->args['diagrams']) ? $this->args['diagrams'] : true;
         if ($state) {
-
             // Mermaid.js https://mermaidjs.github.io
             if (strtolower($language) == 'mermaid') {
                 $element = [
@@ -977,19 +969,19 @@ class ParsedownExtended extends DynamicParent
             // Chart.js https://www.chartjs.org/
             if (strtolower($language) == 'chart') {
                 $element = [
-                   'text' => '',
+                    'text' => '',
                 ];
 
                 $block = [
-                   'char' => $marker,
-                   'openerLength' => $openerLength,
-                   'element' => [
-                       'element' => $element,
-                       'name' => 'canvas',
-                       'attributes' => [
-                           'class' => 'chartjs',
-                       ],
-                   ],
+                    'char' => $marker,
+                    'openerLength' => $openerLength,
+                    'element' => [
+                    'element' => $element,
+                        'name' => 'canvas',
+                        'attributes' => [
+                            'class' => 'chartjs',
+                        ],
+                    ],
                 ];
 
                 return $block;
@@ -1014,15 +1006,15 @@ class ParsedownExtended extends DynamicParent
         $begin_line = substr($text, 0, 4);
         if ('[ ] ' === $begin_line) {
             return [
-               'handler' => 'checkboxUnchecked',
-               'text' => substr(trim($text), 4),
+                'handler' => 'checkboxUnchecked',
+                'text' => substr(trim($text), 4),
             ];
         }
 
         if ('[x] ' === $begin_line) {
             return [
-               'handler' => 'checkboxChecked',
-               'text' => substr(trim($text), 4),
+                'handler' => 'checkboxChecked',
+                'text' => substr(trim($text), 4),
             ];
         }
     }
@@ -1154,7 +1146,7 @@ class ParsedownExtended extends DynamicParent
 
             if (isset($this->BlockTypes[$marker])) {
                 foreach ($this->BlockTypes[$marker] as $blockType) {
-                    $blockTypes []= $blockType;
+                    $blockTypes [] = $blockType;
                 }
             }
 
@@ -1268,7 +1260,7 @@ class ParsedownExtended extends DynamicParent
                     );
                 }
 
-                $Elements []= $Element;
+                $Elements [] = $Element;
             }
 
             $Element = array(
@@ -1276,7 +1268,7 @@ class ParsedownExtended extends DynamicParent
                 'elements' => $Elements,
             );
 
-            $Block['element']['elements'][1]['elements'] []= $Element;
+            $Block['element']['elements'][1]['elements'] [] = $Element;
 
             return $Block;
         }
@@ -1502,7 +1494,7 @@ class ParsedownExtended extends DynamicParent
     /**
      * Generates an anchor text that are link-able even if the heading is not in
      * ASCII.
-     * 
+     *
      * @param  string $str
      * @return string
      */
@@ -1712,7 +1704,7 @@ class ParsedownExtended extends DynamicParent
             $this->initBlacklist();
         }
 
-        $this->anchorDuplicates[$str] = !isset($this->anchorDuplicates[$str]) ? 0 : ++$this->anchorDuplicates[$str];
+        $this->anchorDuplicates[$str] = !isset($this->anchorDuplicates[$str]) ? 0 : $this->anchorDuplicates[$str];
 
         $newStr = $str;
 
