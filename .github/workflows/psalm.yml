@@ -46,4 +46,4 @@ jobs:
         run: composer require erusev/parsedown-extra
         
       - name: Run psalm
-        run: vendor/bin/psalm --init . 5
+        run: vendor/bin/psalm
