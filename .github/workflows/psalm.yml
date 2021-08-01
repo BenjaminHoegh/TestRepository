@@ -23,45 +23,27 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.0
-          tools: composer:v2, php-cs-fixer
+          tools: composer:v2
           extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo, xdebug
         env:
           update: true
-          
-      - name: PHP version
-        run: |
-          composer --version
-          php -v
-          php -i
-          php -m
-          
-      - name: Validate composer files
-        run: composer validate --strict
-
-      - name: Lint all PHP files
-        run: composer run lint
-      
-      - name: Get Composer Cache Directory
-        id: composer-cache-dir
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Check PHP Version
+        run: php -v
         
-      - name: Cache Composer packages
-        id: composer-cache
+      - name: Cache composer dependencies
         uses: actions/cache@v2
         with:
-          path: ${{ steps.composer-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-      
-      - name: Install dependencies
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+          
+      - name: Run composer install
         run: composer install -n --prefer-dist
-             composer require erusev/parsedown
-             composer require erusev/parsedown-extra
+        
+      - name: Install Parsedown
+        run: composer require erusev/parsedown
       
-      - name: Run init
-        run: vendor/bin/psalm --init . 5
-      
+      - name: Install Parsedown Extra
+        run: composer require erusev/parsedown-extra
+        
       - name: Run psalm
         run: vendor/bin/psalm
