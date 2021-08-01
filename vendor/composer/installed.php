@@ -5,20 +5,11 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '38d21a47fae950dba6020b9be13789ace085afa7',
-        'name' => '__root__',
+        'reference' => '5eeaa1c51caef2fbf3ee08fa8aa53158d3ed5889',
+        'name' => 'benjaminhoegh/testrepository',
         'dev' => true,
     ),
     'versions' => array(
-        '__root__' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../../',
-            'aliases' => array(),
-            'reference' => '38d21a47fae950dba6020b9be13789ace085afa7',
-            'dev_requirement' => false,
-        ),
         'amphp/amp' => array(
             'pretty_version' => 'v2.6.0',
             'version' => '2.6.0.0',
@@ -36,6 +27,15 @@
             'aliases' => array(),
             'reference' => 'acbd8002b3536485c997c4e019206b3f10ca15bd',
             'dev_requirement' => true,
+        ),
+        'benjaminhoegh/testrepository' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => '5eeaa1c51caef2fbf3ee08fa8aa53158d3ed5889',
+            'dev_requirement' => false,
         ),
         'composer/package-versions-deprecated' => array(
             'pretty_version' => '1.11.99.2',
@@ -56,12 +56,12 @@
             'dev_requirement' => true,
         ),
         'composer/xdebug-handler' => array(
-            'pretty_version' => '2.0.1',
-            'version' => '2.0.1.0',
+            'pretty_version' => '2.0.2',
+            'version' => '2.0.2.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/./xdebug-handler',
             'aliases' => array(),
-            'reference' => '964adcdd3a28bf9ed5d9ac6450064e0d71ed7496',
+            'reference' => '84674dd3a7575ba617f5a76d7e9e29a7d3891339',
             'dev_requirement' => true,
         ),
         'dnoegel/php-xdg-base-dir' => array(
@@ -172,7 +172,7 @@
         'psalm/psalm' => array(
             'dev_requirement' => true,
             'provided' => array(
-                0 => '4.9.0',
+                0 => '4.9.1',
             ),
         ),
         'psr/container' => array(
@@ -299,12 +299,12 @@
             'dev_requirement' => true,
         ),
         'vimeo/psalm' => array(
-            'pretty_version' => '4.9.0',
-            'version' => '4.9.0.0',
+            'pretty_version' => '4.9.1',
+            'version' => '4.9.1.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../vimeo/psalm',
             'aliases' => array(),
-            'reference' => 'c62adf965241f65aa4f899a050a94b70bbce19fd',
+            'reference' => '7e137f5b95f7394607f5d0631172ff4c2da46781',
             'dev_requirement' => true,
         ),
         'webmozart/assert' => array(

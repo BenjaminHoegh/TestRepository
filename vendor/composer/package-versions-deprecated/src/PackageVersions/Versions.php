@@ -23,7 +23,7 @@ final class Versions
      * @deprecated please use {@see self::rootPackageName()} instead.
      *             This constant will be removed in version 2.0.0.
      */
-    const ROOT_PACKAGE_NAME = '__root__';
+    const ROOT_PACKAGE_NAME = 'benjaminhoegh/testrepository';
 
     /**
      * Array of all available composer packages.
@@ -39,7 +39,7 @@ final class Versions
   'amphp/byte-stream' => 'v1.8.1@acbd8002b3536485c997c4e019206b3f10ca15bd',
   'composer/package-versions-deprecated' => '1.11.99.2@c6522afe5540d5fc46675043d3ed5a45a740b27c',
   'composer/semver' => '3.2.5@31f3ea725711245195f62e54ffa402d8ef2fdba9',
-  'composer/xdebug-handler' => '2.0.1@964adcdd3a28bf9ed5d9ac6450064e0d71ed7496',
+  'composer/xdebug-handler' => '2.0.2@84674dd3a7575ba617f5a76d7e9e29a7d3891339',
   'dnoegel/php-xdg-base-dir' => 'v0.1.1@8f8a6e48c5ecb0f991c2fdcf5f154a47d85f9ffd',
   'felixfbecker/advanced-json-rpc' => 'v3.2.1@b5f37dbff9a8ad360ca341f3240dc1c168b45447',
   'felixfbecker/language-server-protocol' => '1.5.1@9d846d1f5cf101deee7a61c8ba7caa0a975cd730',
@@ -62,10 +62,10 @@ final class Versions
   'symfony/polyfill-php80' => 'v1.23.1@1100343ed1a92e3a38f9ae122fc0eb21602547be',
   'symfony/service-contracts' => 'v2.4.0@f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb',
   'symfony/string' => 'v5.3.3@bd53358e3eccec6a670b5f33ab680d8dbe1d4ae1',
-  'vimeo/psalm' => '4.9.0@c62adf965241f65aa4f899a050a94b70bbce19fd',
+  'vimeo/psalm' => '4.9.1@7e137f5b95f7394607f5d0631172ff4c2da46781',
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
   'webmozart/path-util' => '2.3.0@d939f7edc24c9a1bb9c0dee5cb05d8e859490725',
-  '__root__' => 'dev-master@38d21a47fae950dba6020b9be13789ace085afa7',
+  'benjaminhoegh/testrepository' => 'dev-master@5eeaa1c51caef2fbf3ee08fa8aa53158d3ed5889',
 );
 
     private function __construct()
