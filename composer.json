@@ -14,7 +14,7 @@
     "scripts": {
         "lint": "for file in `git ls-files '*.php' ':!:vendor/*' ':!:*/vendor/*'`; do php -l $file; done",
         "psalm": "vendor/bin/psalm --no-cache",
-        "cs": "php-cs-fixer fix --dry-run --diff udiff",
+        "cs": "php-cs-fixer fix --dry-run --diff",
         "sa": [
             "@psalm"
         ],
