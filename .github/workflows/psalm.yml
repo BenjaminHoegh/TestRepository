@@ -46,8 +46,7 @@ jobs:
         run: composer require erusev/parsedown-extra
         
       - name: Run psalm
-        run: vendor/bin/psalm --init --output-format=github
-        continue-on-error: true
+        run: vendor/bin/psalm --output-format=github
           
       - name: Psalm
         uses: docker://vimeo/psalm-github-actions
