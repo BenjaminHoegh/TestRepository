@@ -19,21 +19,44 @@ class ParsedownExtended extends DynamicParent
     /**
      * ------------------------------------------------------------------------
      *  Constants.
-     * ------------------------------------------------------------------------
+     * ------------------------------------------------------------------------.
      */
     public const VERSION = '1.0';
     public const VERSION_PARSEDOWN_REQUIRED = '1.7';
     public const TAG_TOC_DEFAULT = '[toc]';
     public const ID_ATTRIBUTE_DEFAULT = 'toc';
+    /**
+     * @var string
+     */
+
+    protected $tag_toc = '';
+    
+    protected $contentsListArray = [];
+
+     /**
+     * @var string
+     */
+    protected $contentsListString = '';
+    
+    /**
+     * @var int
+     */
+    protected $firstHeadLevel = 0;
+    
+    /**
+     * @var bool
+     */
+    protected $isBlacklistInitialized = false;
+    protected $anchorDuplicates = [];
 
     /**
-     * Version requirement check.
-     */
+      * Version requirement check.
+      */
     public function __construct(array $args = null)
     {
         if (version_compare(\Parsedown::version, self::VERSION_PARSEDOWN_REQUIRED) < 0) {
             $msg_error = 'Version Error.' . PHP_EOL;
-            $msg_error .= '  ParsedownToc requires a later version of Parsedown.' . PHP_EOL;
+            $msg_error .= '  ParsedownExtended requires a later version of Parsedown.' . PHP_EOL;
             $msg_error .= '  - Current version : ' . \Parsedown::version . PHP_EOL;
             $msg_error .= '  - Required version: ' . self::VERSION_PARSEDOWN_REQUIRED . ' and later' . PHP_EOL;
             throw new Exception($msg_error);
@@ -46,14 +69,16 @@ class ParsedownExtended extends DynamicParent
         }
 
         /**
-        * ------------------------------------------------------------------------
-        * Inline
-        * ------------------------------------------------------------------------
-        */
+         * ------------------------------------------------------------------------
+         * Inline
+         * ------------------------------------------------------------------------.
+         */
 
         // Marks
-        $state = isset($this->args['marks']) ? $this->args['marks'] : true;
-        if ($state !== false) {
+        // $state = isset($this->args['marks']) ? $this->args['marks'] : true;
+        $state = $this->args['marks'] ?? true;
+        // if ($state !== false) {
+        if (false !== $state) {
             $this->InlineTypes['='][] = 'marks';
             $this->inlineMarkerList .= '=';
         }
@@ -1540,8 +1565,8 @@ class ParsedownExtended extends DynamicParent
             'ϊ' => 'i', 'ΰ' => 'y', 'ϋ' => 'y', 'ΐ' => 'i',
 
             // Turkish
-            'Ş' => 'S', 'İ' => 'I', 'Ç' => 'C', 'Ü' => 'U', 'Ö' => 'O', 'Ğ' => 'G',
-            'ş' => 's', 'ı' => 'i', 'ç' => 'c', 'ü' => 'u', 'ö' => 'o', 'ğ' => 'g',
+            'Ş' => 'S', 'İ' => 'I', 'Ü' => 'U', 'Ö' => 'O', 'Ğ' => 'G',
+            'ş' => 's', 'ı' => 'i', 'ü' => 'u', 'ö' => 'o', 'ğ' => 'g',
 
             // Russian
             'А' => 'A', 'Б' => 'B', 'В' => 'V', 'Г' => 'G', 'Д' => 'D', 'Е' => 'E', 'Ё' => 'Yo', 'Ж' => 'Zh',

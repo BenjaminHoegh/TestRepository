@@ -16,7 +16,10 @@ $config = new PhpCsFixer\Config();
 $config
     ->setRiskyAllowed(true)
     ->setRules([
-        '@PSR12' => true
+        '@PSR12' => true,
+        '@PHP80Migration' => true,
+        '@PhpCsFixer' => true,
+        'general_phpdoc_annotation_remove' => ['annotations' => ['expectedDeprecation']],
     ])
     ->setFinder($finder);
 
