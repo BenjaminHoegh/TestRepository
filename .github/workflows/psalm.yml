@@ -44,6 +44,9 @@ jobs:
       
       - name: Install Parsedown Extra
         run: composer require erusev/parsedown-extra
-        
+      
+      - name Run init
+        run: vendor/bin/psalm --init . 5
+      
       - name: Run psalm
         run: vendor/bin/psalm
