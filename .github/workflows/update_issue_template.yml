@@ -35,7 +35,7 @@ jobs:
           
       - name: Update issue template with tags
         run: |
-          TEMPLATE_PATH=".github/ISSUE_TEMPLATE/bug_report.yml"
+          TEMPLATE_PATH=".github/ISSUE_TEMPLATE/bug_report.yaml"
           TAGS_SECTION=$(cat tags.txt)
           # This sed command is for demonstration. You might need to adjust it to match your template's structure.
           sed -i "/## Which version are you using?/,+5 d" $TEMPLATE_PATH
