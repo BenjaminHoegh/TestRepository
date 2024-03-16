@@ -23,28 +23,33 @@ jobs:
               repo: 'parsedown',
               per_page: 5
             });
-            return tags.data.map(tag => tag.name);
+            return tags.data.map(tag => tag.name).join('\n');
 
-      - name: Prepare tags for issue template
-        run: |
-          echo "TAGS_DROPDOWN=\n## Which version are you using?" > tags.txt
-          for TAG in ${{ join(fromJson(steps.get-tags.outputs.result), ' ') }}
-          do
-            echo "- $TAG" >> tags.txt
-          done
-          
       - name: Update issue template with tags
         run: |
-          TEMPLATE_PATH=".github/ISSUE_TEMPLATE/bug_report.yaml"
-          TAGS_SECTION=$(cat tags.txt)
-          # This sed command is for demonstration. You might need to adjust it to match your template's structure.
-          sed -i "/## Which version are you using?/,+5 d" $TEMPLATE_PATH
-          echo "$TAGS_SECTION" >> $TEMPLATE_PATH
+          TEMPLATE_PATH=".github/ISSUE_TEMPLATE/bug_report.yml"
+          # The section in the YAML we plan to update
+          YAML_SECTION_START='versions:'
+          YAML_SECTION_END='# End of versions section'
+          NEW_TAGS_SECTION="${{ steps.get-tags.outputs.result }}"
+          
+          # Extract everything before and after the tags section
+          before_tags=$(awk "/${YAML_SECTION_START}/{exit} {print}" $TEMPLATE_PATH)
+          after_tags=$(awk "/${YAML_SECTION_END}/,0" $TEMPLATE_PATH)
+          
+          # Reconstruct the file
+          echo "$before_tags" > $TEMPLATE_PATH
+          echo "$YAML_SECTION_START" >> $TEMPLATE_PATH
+          IFS=$'\n'
+          for TAG in $NEW_TAGS_SECTION; do
+            echo "  - $TAG" >> $TEMPLATE_PATH
+          done
+          echo "$after_tags" >> $TEMPLATE_PATH
 
       - name: Commit and push if changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add . 
-          git commit -m "Update issue template with latest release tags" -a || echo "No changes to commit"
+          git add $TEMPLATE_PATH
+          git diff --staged --quiet || git commit -m "Update issue template with latest release tags"
           git push
