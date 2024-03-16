@@ -27,7 +27,7 @@ jobs:
 
       - name: Update issue template with tags
         run: |
-          TEMPLATE_PATH=".github/ISSUE_TEMPLATE/bug_report.yml"
+          TEMPLATE_PATH=".github/ISSUE_TEMPLATE/bug_report.yaml"
           # The section in the YAML we plan to update
           YAML_SECTION_START='versions:'
           YAML_SECTION_END='# End of versions section'
