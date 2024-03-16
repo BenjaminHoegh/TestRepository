@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      
-      - name: Fetch the latest 5 release tags from another repository
+
+      - name: Fetch the latest 5 release tags
         id: get-tags
         uses: actions/github-script@v6
         with:
@@ -23,28 +23,24 @@ jobs:
               repo: 'parsedown',
               per_page: 5
             });
-            return tags.data.map(tag => tag.name).join('\n');
+            return tags.data.map(tag => tag.name);
 
       - name: Update issue template with tags
         run: |
-          TEMPLATE_PATH=".github/ISSUE_TEMPLATE/bug_report.yaml"
-          # The section in the YAML we plan to update
-          YAML_SECTION_START='versions:'
-          YAML_SECTION_END='# End of versions section'
-          NEW_TAGS_SECTION="${{ steps.get-tags.outputs.result }}"
-          
-          # Extract everything before and after the tags section
-          before_tags=$(awk "/${YAML_SECTION_START}/{exit} {print}" $TEMPLATE_PATH)
-          after_tags=$(awk "/${YAML_SECTION_END}/,0" $TEMPLATE_PATH)
-          
-          # Reconstruct the file
-          echo "$before_tags" > $TEMPLATE_PATH
-          echo "$YAML_SECTION_START" >> $TEMPLATE_PATH
-          IFS=$'\n'
-          for TAG in $NEW_TAGS_SECTION; do
-            echo "  - $TAG" >> $TEMPLATE_PATH
-          done
-          echo "$after_tags" >> $TEMPLATE_PATH
+          TEMPLATE_PATH=".github/ISSUE_TEMPLATE/bug_report.yml"
+          # Prepare the versions section
+          VERSIONS_SECTION=$(echo "${{ join(steps.get-tags.outputs.result) }}" | sed -e "s/ /\\n        - label: /g" | sed -e "s/^/        - label: /")
+          # Escape slashes for sed
+          VERSIONS_SECTION_ESCAPED=$(echo "$VERSIONS_SECTION" | sed -e 's_/_\\/_g')
+          # Replace the versions section in the YAML file
+          sed -i "/      label: Affected Versions/,/    validations:/ {
+            /      options:/, /    validations:/ {
+              /      options:/b
+              /    validations:/b
+              /- label:/d
+            }
+          }" $TEMPLATE_PATH
+          sed -i "/      options:/ a \\\n$VERSIONS_SECTION_ESCAPED" $TEMPLATE_PATH
 
       - name: Commit and push if changes
         run: |
