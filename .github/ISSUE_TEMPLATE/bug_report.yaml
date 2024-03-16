@@ -29,37 +29,6 @@ body:
     validations:
       required: true
 
-  - type: textarea
-    id: steps-to-reproduce
-    attributes:
-      label: Steps to Reproduce
-      description: Please provide a step-by-step description of how to reproduce the bug.
-      placeholder: |
-        1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
-        4. See error
-    validations:
-      required: true
-
-  - type: textarea
-    id: expected-behavior
-    attributes:
-      label: Expected Behavior
-      description: Please describe what you expected to happen.
-      placeholder: "What you expected to happen."
-    validations:
-      required: true
-
-  - type: textarea
-    id: actual-behavior
-    attributes:
-      label: Actual Behavior
-      description: Please describe what actually happened.
-      placeholder: "What actually happened."
-    validations:
-      required: true
-
   - type: markdown
     attributes:
       value: "## Versions Affected"
@@ -75,24 +44,3 @@ body:
         - label: Version 1.2
     validations:
       required: true
-
-  - type: markdown
-    attributes:
-      value: "## Additional Context"
-
-  - type: textarea
-    id: additional-context
-    attributes:
-      label: Additional Context
-      description: Please provide any additional context, screenshots, or files that may help us understand the issue better.
-      placeholder: "Any additional context."
-    validations:
-      required: false
-
-  - type: file
-    id: screenshots
-    attributes:
-      label: Screenshots
-      description: If applicable, add screenshots to help explain your problem.
-    validations:
-      required: false
