@@ -19,3 +19,9 @@ body:
     validations:
       required: true
   
+TAGS_DROPDOWN=\n## Which version are you using?
+- v2.0.0-beta-1
+- v1.8.0-beta-6
+- v1.7.2
+- 1.8.0-beta-7
+- 1.8.0-beta-6
