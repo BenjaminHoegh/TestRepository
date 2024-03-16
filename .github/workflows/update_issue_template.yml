@@ -1,0 +1,50 @@
+name: Update Issue Template with Release Tags
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight
+  workflow_dispatch:
+
+jobs:
+  update-template:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Fetch the latest 5 release tags from another repository
+        id: get-tags
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const tags = await github.rest.repos.listTags({
+              owner: 'erusev',
+              repo: 'parsedown',
+              per_page: 5
+            });
+            return tags.data.map(tag => tag.name);
+
+      - name: Prepare tags for issue template
+        run: |
+          echo "TAGS_DROPDOWN=\n## Which version are you using?" > tags.txt
+          for TAG in ${{ join(fromJson(steps.get-tags.outputs.result), ' ') }}
+          do
+            echo "- $TAG" >> tags.txt
+          done
+          
+      - name: Update issue template with tags
+        run: |
+          TEMPLATE_PATH=".github/ISSUE_TEMPLATE/bug_report.md"
+          TAGS_SECTION=$(cat tags.txt)
+          # This sed command is for demonstration. You might need to adjust it to match your template's structure.
+          sed -i "/## Which version are you using?/,+5 d" $TEMPLATE_PATH
+          echo "$TAGS_SECTION" >> $TEMPLATE_PATH
+
+      - name: Commit and push if changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add . 
+          git commit -m "Update issue template with latest release tags" -a || echo "No changes to commit"
+          git push
