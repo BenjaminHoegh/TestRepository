@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Fetch the latest 5 release tags
+      
+      - name: Fetch the latest 5 release tags from another repository
         id: get-tags
         uses: actions/github-script@v6
         with:
@@ -23,24 +23,26 @@ jobs:
               repo: 'parsedown',
               per_page: 5
             });
-            return tags.data.map(tag => tag.name);
+            return tags.data.map(tag => tag.name).join('\n');
 
       - name: Update issue template with tags
         run: |
           TEMPLATE_PATH=".github/ISSUE_TEMPLATE/bug_report.yml"
-          # Prepare the versions section
-          VERSIONS_SECTION=$(echo "${{ join(steps.get-tags.outputs.result) }}" | sed -e "s/ /\\n        - label: /g" | sed -e "s/^/        - label: /")
-          # Escape slashes for sed
-          VERSIONS_SECTION_ESCAPED=$(echo "$VERSIONS_SECTION" | sed -e 's_/_\\/_g')
-          # Replace the versions section in the YAML file
-          sed -i "/      label: Affected Versions/,/    validations:/ {
-            /      options:/, /    validations:/ {
-              /      options:/b
-              /    validations:/b
-              /- label:/d
-            }
-          }" $TEMPLATE_PATH
-          sed -i "/      options:/ a \\\n$VERSIONS_SECTION_ESCAPED" $TEMPLATE_PATH
+          # Read in the tags as a Bash array
+          IFS=$'\n' read -r -d '' -a tags <<<"${{ steps.get-tags.outputs.result }}"
+          # Start constructing the replacement YAML snippet
+          yaml_snippet="        - Homebrew\n        - MacPorts\n        - apt-get\n        - Built from source"
+          for tag in "${tags[@]}"; do
+            yaml_snippet="$yaml_snippet\n        - $tag"
+          done
+          # Use awk to replace the options section of the dropdown
+          awk -v rs="$yaml_snippet" '
+            BEGIN {p=1}
+            /id: download/ {print; getline; print; p=0}
+            /options:/,/validations:/{if(p==0 && /- /)next}
+            /validations:/{p=1}
+            {print}
+          ' $TEMPLATE_PATH > temp && mv temp $TEMPLATE_PATH
 
       - name: Commit and push if changes
         run: |
