@@ -28,19 +28,15 @@ body:
       placeholder: "A detailed description of what the bug is."
     validations:
       required: true
-
-  - type: markdown
+      
+  - type: dropdown
+    id: download
     attributes:
-      value: "## Versions Affected"
-  # Dynamically generated versions list would go here
-  - type: checkboxes
-    id: affected-versions
-    attributes:
-      label: Affected Versions
-      description: Please select the version(s) affected.
+      label: Version
       options:
-        - label: Version 1.0
-        - label: Version 1.1
-        - label: Version 1.2
+        - Homebrew
+        - MacPorts
+        - apt-get
+        - Built from source
     validations:
       required: true
