@@ -1,11 +1,15 @@
 name: Deploy to GitHub Pages
 
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the "docs" branch
   push:
-    branches:
-      - docs
-    # Review gh actions docs if you want to further define triggers, paths, etc
-    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+    branches: ["docs"]
+  pull_request:
+    branches: ["docs"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,12 +22,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: yarn
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: rpm install --frozen-lockfile
       - name: Build website
-        run: yarn build
+        run: rpm run build
 
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
