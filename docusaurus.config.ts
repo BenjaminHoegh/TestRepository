@@ -36,13 +36,13 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/BenjaminHoegh/TestRepository/tree/main/',
+            'https://github.com/BenjaminHoegh/TestRepository/tree/docs/',
         },
         // Remove or comment out the blog configuration
         // blog: {
         //   showReadingTime: true,
         //   editUrl:
-        //     'https://github.com/BenjaminHoegh/TestRepository/tree/main/',
+        //     'https://github.com/BenjaminHoegh/TestRepository/tree/docs/',
         // },
         theme: {
           customCss: './src/css/custom.css',
