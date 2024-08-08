@@ -21,9 +21,6 @@ const config: Config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -34,14 +31,18 @@ const config: Config = {
       'classic',
       {
         docs: {
-          routeBasePath: '/',
           sidebarPath: './sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/BenjaminHoegh/TestRepository/tree/main/',
         },
-        blog: false,
+        // Remove or comment out the blog configuration
+        // blog: {
+        //   showReadingTime: true,
+        //   editUrl:
+        //     'https://github.com/BenjaminHoegh/TestRepository/tree/main/',
+        // },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -65,7 +66,8 @@ const config: Config = {
           position: 'left',
           label: 'Tutorial',
         },
-        { to: '/blog', label: 'Blog', position: 'left' },
+        // Remove the blog link from the navbar
+        // { to: '/blog', label: 'Blog', position: 'left' },
         {
           href: 'https://github.com/BenjaminHoegh/TestRepository',
           label: 'GitHub',
@@ -105,10 +107,8 @@ const config: Config = {
         {
           title: 'More',
           items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
+            // Remove the blog link from the footer
+            // { label: 'Blog', to: '/blog' },
             {
               label: 'GitHub',
               href: 'https://github.com/BenjaminHoegh/TestRepository',
