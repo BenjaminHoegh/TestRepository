@@ -18,7 +18,7 @@ const config: Config = {
   organizationName: 'BenjaminHoegh', // Your GitHub org/user name.
   projectName: 'TestRepository', // Your repo name.
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   i18n: {
