@@ -8,6 +8,14 @@ title: Diagrams
 
 ParsedownExtended introduces support for incorporating diagrams directly into Markdown documents, enhancing visual representation and understanding. This feature recognizes syntax intended for diagram rendering, specifically designed to work with [ChartJS](https://www.chartjs.org) and [Mermaid](https://mermaid-js.github.io/mermaid/). ParsedownExtended ensures that diagram code is preserved and remains unaltered for client-side rendering, requiring the inclusion of ChartJS and Mermaid JavaScript libraries in your project.
 
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
 ## Configuration Syntax
 
 Enable the diagrams feature in ParsedownExtended using the `setSetting` method:
