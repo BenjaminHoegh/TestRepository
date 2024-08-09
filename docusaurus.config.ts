@@ -56,11 +56,11 @@ const config: Config = {
     mermaid: {
       theme: { light: 'neutral', dark: 'forest' },
     },
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'https://github.com/BenjaminHoegh/ParsedownExtended/raw/gh-pages/img/parsedownExtended.png',
     navbar: {
-      title: 'My Site',
+      title: 'ParsedownExtended',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'ParsedownExtended Logo',
         src: 'https://github.com/BenjaminHoegh/ParsedownExtended/raw/gh-pages/img/parsedownExtended.png',
       },
       items: [
