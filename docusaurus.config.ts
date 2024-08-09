@@ -61,7 +61,7 @@ const config: Config = {
       title: 'My Site',
       logo: {
         alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        src: 'https://github.com/BenjaminHoegh/ParsedownExtended/raw/gh-pages/img/parsedownExtended.png',
       },
       items: [
         {
