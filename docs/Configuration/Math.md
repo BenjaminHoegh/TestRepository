@@ -8,6 +8,12 @@ title: Math
 
 ParsedownExtended introduces support for LaTeX within Markdown, allowing you to incorporate mathematical expressions and notation seamlessly into your documents. By identifying and preserving LaTeX syntax, ParsedownExtended facilitates the use of client-side rendering libraries like [KaTeX](https://katex.org) to render these expressions. This feature is invaluable for academic, scientific, and technical documentation where complex mathematical formulas need to be clearly presented.
 
+$$
+I = \int_0^{2\pi} \sin(x)\,dx
+$$
+
+
+
 ## Configuration Syntax
 
 To enable LaTeX support in ParsedownExtended, use the `setSetting` method:
