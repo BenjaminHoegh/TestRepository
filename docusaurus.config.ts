@@ -54,7 +54,7 @@ const config: Config = {
 
   themeConfig: {
     mermaid: {
-      theme: { light: 'neutral', dark: 'forest' },
+      theme: { light: 'neutral', dark: 'dark' },
     },
     image: 'https://github.com/BenjaminHoegh/ParsedownExtended/raw/gh-pages/img/parsedownExtended.png',
     navbar: {
