@@ -5,20 +5,15 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 const config: Config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: 'ParsedownExtended',
   favicon: 'img/favicon.ico',
 
-  // Set the production url of your site here
   url: 'https://benjaminhoegh.github.io',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/TestRepository/',
 
   // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'BenjaminHoegh', // Your GitHub org/user name.
-  projectName: 'TestRepository', // Your repo name.
+  organizationName: 'BenjaminHoegh',
+  projectName: 'TestRepository',
 
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
@@ -35,6 +30,13 @@ const config: Config = {
         docs: {
           routeBasePath: '/',
           lastVersion: 'current',
+          versions: {
+            current: {
+              label: 'Current',
+              path: '/',
+              badge: true,
+            },
+          },
           sidebarPath: './sidebars.ts',
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
