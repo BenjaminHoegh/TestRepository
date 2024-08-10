@@ -10,10 +10,10 @@ Tables are a key feature in Markdown for organizing and presenting data clearly 
 
 ## Configuration Syntax
 
-Configure table rendering in ParsedownExtended using the `setSetting` method:
+Configure table rendering in ParsedownExtended using the `config()->set()` method:
 
 ```php
-$ParsedownExtended->setSetting('tables', (boolean|array) $value);
+$ParsedownExtended->config()->set('tables', (bool|array) $value);
 ```
 
 This setting can be a boolean to enable or disable table rendering globally, or an array for more specific configurations.
@@ -29,7 +29,7 @@ This setting can be a boolean to enable or disable table rendering globally, or 
 To enable the rendering of tables with default settings:
 
 ```php
-$ParsedownExtended->setSetting('tables', true);
+$ParsedownExtended->config()->set('tables', true);
 ```
 
 ### Enable Tablespan
@@ -37,7 +37,7 @@ $ParsedownExtended->setSetting('tables', true);
 To enable table spans, allowing for more complex table layouts:
 
 ```php
-$ParsedownExtended->setSetting('tables', [
+$ParsedownExtended->config()->set('tables', [
     'tablespan' => true
 ]);
 ```
@@ -47,7 +47,7 @@ $ParsedownExtended->setSetting('tables', [
 To completely disable table rendering:
 
 ```php
-$ParsedownExtended->setSetting('tables', false);
+$ParsedownExtended->config()->set('tables', false);
 ```
 
 ### Markdown Table Example
@@ -60,3 +60,5 @@ Create a table in Markdown:
 | Row 1    | Data     | Data     |
 | Row 2    | Data     | Data     |
 ```
+
+This documentation ensures that users have clear and precise instructions on how to configure and use the table rendering features within ParsedownExtended, using the correct syntax and context.

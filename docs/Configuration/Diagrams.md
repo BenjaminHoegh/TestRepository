@@ -18,18 +18,32 @@ graph TD;
 
 ## Configuration Syntax
 
-Enable the diagrams feature in ParsedownExtended using the `setSetting` method:
+To enable the diagrams feature in ParsedownExtended, use the `config()->set()` and `config()->get()` methods:
+
+### Getting the Current Configuration
+
+To retrieve the current configuration for diagram support:
 
 ```php
-$ParsedownExtended->setSetting('diagrams', (boolean) $value);
+$configValue = $ParsedownExtended->config()->get('diagrams');
 ```
 
-## Parameters
+### Setting the Configuration
 
-This feature allows the following configurations:
+To adjust the diagram processing settings:
 
-- **chartjs:** Enable or disable support for ChartJS diagrams.
-- **mermaid:** Enable or disable support for Mermaid diagrams.
+```php
+$ParsedownExtended->config()->set('diagrams', (bool|array) $value);
+```
+
+- `$value` can be a boolean to enable or disable diagram support globally, or an array for more specific configuration options.
+
+## Configuration Options
+
+This feature allows the following settings:
+
+- **chartjs**: Enable or disable support for ChartJS diagrams.
+- **mermaid**: Enable or disable support for Mermaid diagrams.
 
 ## Examples
 
@@ -38,7 +52,7 @@ This feature allows the following configurations:
 To activate diagram support, ensuring that Markdown containing ChartJS or Mermaid syntax is properly recognized and left intact for client-side rendering:
 
 ```php
-$ParsedownExtended->setSetting('diagrams', true);
+$ParsedownExtended->config()->set('diagrams', true);
 ```
 
 ### Disable a Specific Diagram Type
@@ -46,7 +60,9 @@ $ParsedownExtended->setSetting('diagrams', true);
 To disable support for a specific diagram type, such as ChartJS:
 
 ```php
-$ParsedownExtended->setSetting('diagrams', [
+$ParsedownExtended->config()->set('diagrams', [
     'chartjs' => false
 ]);
 ```
+
+This configuration allows you to control how diagram syntax is handled within your Markdown content, ensuring that it is processed according to your project’s requirements.

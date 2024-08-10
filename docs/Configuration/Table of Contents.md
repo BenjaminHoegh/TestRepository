@@ -2,7 +2,7 @@
 title: Table of Contents (ToC)
 ---
 
-# Table of Content (ToC)
+# Table of Contents (ToC)
 
 ## Description
 
@@ -10,10 +10,10 @@ ParsedownExtended facilitates the automatic creation of a Table of Contents (ToC
 
 ## Configuration Syntax
 
-To enable or configure the ToC feature, use the `setSetting` method:
+To enable or configure the ToC feature, use the `config()->set()` method:
 
 ```php
-$ParsedownExtended->setSetting('toc', (boolean|array) $value);
+$ParsedownExtended->config()->set('toc', (bool|array) $value);
 ```
 
 ## Parameters
@@ -25,7 +25,7 @@ Configure ToC with these options:
 
 ## Generating ToC and Content Separately
 
-ParsedownExtended offers methods to generate ToC and content separately:
+ParsedownExtended offers methods to generate the ToC and content separately:
 
 - **contentsList()**: Returns just the "ToC" as an HTML `<ul>` list.
 - **body()**: Parses content without `[toc]` tag.
@@ -51,7 +51,7 @@ echo $body; // Main body content
 To enable the ToC feature:
 
 ```php
-$ParsedownExtended->setSetting('toc', true);
+$ParsedownExtended->config()->set('toc', true);
 ```
 
 ### Customize ToC
@@ -59,8 +59,10 @@ $ParsedownExtended->setSetting('toc', true);
 Customize ToC with specific configurations:
 
 ```php
-$ParsedownExtended->setSetting('toc', [
+$ParsedownExtended->config()->set('toc', [
     'headings' => ['h1', 'h2', 'h3'], // Headings to include
     'set_toc_tag' => '[toc]', // Custom ToC tag
 ]);
 ```
+
+This documentation ensures clarity by using the correct settings structure, allowing users to properly configure and use the Table of Contents feature within ParsedownExtended.

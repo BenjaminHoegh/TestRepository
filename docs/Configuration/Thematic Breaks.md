@@ -10,10 +10,10 @@ Thematic breaks, also known as horizontal rules, are a handy element in Markdown
 
 ## Configuration Syntax
 
-Control the rendering of thematic breaks in ParsedownExtended with the `setSetting` method:
+Control the rendering of thematic breaks in ParsedownExtended with the `config()->set()` method:
 
 ```php
-$ParsedownExtended->setSetting('thematic_breaks', (boolean) $value);
+$ParsedownExtended->config()->set('thematic_breaks', (bool) $value);
 ```
 
 This setting accepts a boolean value to enable or disable thematic breaks globally.
@@ -25,7 +25,7 @@ This setting accepts a boolean value to enable or disable thematic breaks global
 To enable thematic breaks with default settings:
 
 ```php
-$ParsedownExtended->setSetting('thematic_breaks', true);
+$ParsedownExtended->config()->set('thematic_breaks', true);
 ```
 
 ### Disable Thematic Breaks
@@ -33,5 +33,7 @@ $ParsedownExtended->setSetting('thematic_breaks', true);
 To completely disable thematic breaks:
 
 ```php
-$ParsedownExtended->setSetting('thematic_breaks', false);
+$ParsedownExtended->config()->set('thematic_breaks', false);
 ```
+
+This documentation provides users with clear guidance on how to configure the rendering of thematic breaks within their Markdown documents using ParsedownExtended, with the appropriate syntax and context.

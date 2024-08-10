@@ -10,10 +10,10 @@ In Markdown, links are crucial for directing readers to additional resources or 
 
 ## Configuration Syntax
 
-Configure link processing in ParsedownExtended using the `setSetting` method:
+Configure link processing in ParsedownExtended using the `config()->set()` method:
 
 ```php
-$ParsedownExtended->setSetting('links', (boolean|array) $value);
+$ParsedownExtended->config()->set('links', (bool|array) $value);
 ```
 
 This setting can be a simple boolean to enable or disable all link processing, or an array for more granular control over specific types of links.
@@ -29,7 +29,7 @@ This setting can be a simple boolean to enable or disable all link processing, o
 To disable the processing and rendering of all links:
 
 ```php
-$ParsedownExtended->setSetting('links', false);
+$ParsedownExtended->config()->set('links', false);
 ```
 
 ### Disable Mailto Links
@@ -37,7 +37,9 @@ $ParsedownExtended->setSetting('links', false);
 To disable the automatic conversion of email addresses into mailto links:
 
 ```php
-$ParsedownExtended->setSetting('links', [
+$ParsedownExtended->config()->set('links', [
     'email_links' => false
 ]);
 ```
+
+Using the full syntax like this ensures that users understand how to properly apply the settings within their specific instance of `ParsedownExtended`, reducing confusion and making your documentation more practical and user-friendly.

@@ -6,41 +6,53 @@ title: Abbreviations
 
 ## Description
 
-The Abbreviations feature enables the automatic detection and formatting of abbreviations within Markdown content. By wrapping abbreviations in `<abbr>` tags, it enhances text comprehension and accessibility, providing full meanings on hover.
+The Abbreviations feature provides automatic detection and formatting of abbreviations within your Markdown content. By wrapping abbreviations in `<abbr>` tags, it enhances text comprehension and accessibility, allowing users to see the full meaning of abbreviations on hover.
 
 ## Configuration Syntax
 
-To adjust the abbreviations feature, utilize the `setSetting` method:
+To configure the Abbreviations feature, use the `config()->set()` and `config()->get()` methods:
+
+### Getting the Current Configuration
+
+To retrieve the current configuration for the Abbreviations feature:
 
 ```php
-$ParsedownExtended->setSetting('abbreviations', (boolean|array) $value);
+$configValue = config()->get('abbreviations');
 ```
 
-- `$value` can be a boolean to enable/disable this feature globally or an array for detailed configurations.
+### Setting the Configuration
 
-## Parameters
+To adjust the Abbreviations feature, use:
 
-This feature allows the following configurations:
+```php
+config()->set('abbreviations', (bool|array) $value);
+```
 
-- **allow_custom_abbr** (boolean): Permit the definition of custom abbreviations directly within your Markdown. Enabled by default.
-- **predefine** (array): Define a list of abbreviations with their full meanings to ensure consistency across your documents.
+- `$value` can be a boolean to enable or disable the feature globally, or an array for more detailed configuration options.
+
+## Configuration Options
+
+The Abbreviations feature supports the following settings:
+
+- **allow_custom_abbr** (bool): Allows the definition of custom abbreviations directly within your Markdown content. This option is enabled by default.
+- **predefine** (array): Provides a list of predefined abbreviations and their full meanings to ensure consistency across your documents.
 
 ## Examples
 
 ### Disable Abbreviations
 
-To disable abbreviation processing entirely:
+To completely disable the processing of abbreviations:
 
 ```php
-$ParsedownExtended->setSetting('abbreviations', false);
+$ParsedownExtended->config()->set('abbreviations', false);
 ```
 
 ### Predefine Abbreviations
 
-To establish a predefined set of abbreviations:
+To set up a predefined list of abbreviations:
 
 ```php
-$ParsedownExtended->setSetting('abbreviations', [
+$ParsedownExtended->config()->set('abbreviations', [
     'predefine' => [
         'CSS' => 'Cascading Style Sheets',
         'HTML' => 'HyperText Markup Language',
@@ -49,12 +61,12 @@ $ParsedownExtended->setSetting('abbreviations', [
 ]);
 ```
 
-### Custom Abbreviations Only
+### Use Predefined Abbreviations Only
 
-To use only predefined abbreviations and disable custom ones:
+To restrict usage to only predefined abbreviations and disable custom abbreviations:
 
 ```php
-$ParsedownExtended->setSetting('abbreviations', [
+$ParsedownExtended->config()->set('abbreviations', [
     'allow_custom_abbr' => false,
     'predefine' => [
         'CSS' => 'Cascading Style Sheets',

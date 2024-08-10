@@ -12,18 +12,15 @@ $$
 I = \int_0^{2\pi} \sin(x)\,dx
 $$
 
-
-
 ## Configuration Syntax
 
-To enable LaTeX support in ParsedownExtended, use the `setSetting` method:
+To enable LaTeX support in ParsedownExtended, use the `config()->set()` method:
 
 ```php
-$ParsedownExtended->setSetting('math', (boolean|array) $value);
+$ParsedownExtended->config()->set('math', (bool|array) $value);
 ```
 
 This configuration can be set to `true` to enable LaTeX processing, or more detailed options can be specified through an array.
-
 
 ## Parameters
 
@@ -35,9 +32,7 @@ The `math` feature allows the following configurations:
 - **block** (array): Configure block math expressions.
   - **delimiters** (array): Define the delimiters for block math expressions.
 
-
-> Custom delimiters may not work as excepted when using charecters not registered in `$specialCharacters` 
-
+> Custom delimiters may not work as expected when using characters not registered in `$specialCharacters`.
 
 ## Examples
 
@@ -46,7 +41,7 @@ The `math` feature allows the following configurations:
 To activate LaTeX processing, allowing Markdown to include LaTeX expressions for client-side rendering:
 
 ```php
-$ParsedownExtended->setSetting('math', true);
+$ParsedownExtended->config()->set('math', true);
 ```
 
 ### Configure Inline and Block Math Separately
@@ -54,7 +49,7 @@ $ParsedownExtended->setSetting('math', true);
 To configure inline and block math processing separately:
 
 ```php
-$ParsedownExtended->setSetting('math', [
+$ParsedownExtended->config()->set('math', [
     'inline' => [
         'delimiters' => [
             ['left' => '\\(', 'right' => '\\)'],
@@ -73,3 +68,5 @@ $ParsedownExtended->setSetting('math', [
     ],
 ]);
 ```
+
+This documentation provides users with clear instructions on how to enable and configure LaTeX support for mathematical expressions within their Markdown content using the full context of `$ParsedownExtended->config()->set()`.

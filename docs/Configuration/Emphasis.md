@@ -14,7 +14,7 @@ ParsedownExtended supports a range of emphasis styles, which can be individually
 
 - **bold:** Applies bold formatting.
 - **italic:** Applies italic formatting.
-- **marking:** Applies highlighting using the \<mark> tag.
+- **marking:** Applies highlighting using the `<mark>` tag.
 - **strikethroughs:** Applies strikethrough formatting.
 - **insertions:** Applies underline formatting typically used to indicate insertions.
 - **subscript:** Applies subscript formatting.
@@ -23,12 +23,23 @@ ParsedownExtended supports a range of emphasis styles, which can be individually
 
 ## Configuration Syntax
 
-Configure emphasis features in ParsedownExtended using `setSetting`. You can enable or disable specific emphasis styles or turn off all emphasis processing:
+Configure emphasis features in ParsedownExtended using `config()->set()` and `config()->get()`. You can enable or disable specific emphasis styles or turn off all emphasis processing:
+
+### Getting the Current Configuration
+
+To retrieve the current configuration for emphasis styles:
 
 ```php
-// To configure specific emphasis styles
-$ParsedownExtended->setSetting('emphasis', [
-    'bold' => true,  // Enable bold emphasis
+$configValue = $ParsedownExtended->config()->get('emphasis');
+```
+
+### Setting the Configuration
+
+To configure specific emphasis styles:
+
+```php
+$ParsedownExtended->config()->set('emphasis', [
+    'bold' => true,   // Enable bold emphasis
     'italic' => true, // Enable italic emphasis
     // Specify other emphasis styles as needed
 ]);
@@ -43,7 +54,7 @@ This flexibility allows you to tailor the rendering of your Markdown content pre
 Enable only bold and marked text, while disabling others:
 
 ```php
-$ParsedownExtended->setSetting('emphasis', [
+$ParsedownExtended->config()->set('emphasis', [
     'bold' => true,
     'marking' => true,
 ]);
@@ -54,5 +65,7 @@ $ParsedownExtended->setSetting('emphasis', [
 To completely disable all forms of text emphasis:
 
 ```php
-$ParsedownExtended->setSetting('emphasis', false);
+$ParsedownExtended->config()->set('emphasis', false);
 ```
+
+This configuration allows you to have full control over how text emphasis is handled within your Markdown documents, ensuring that the content aligns with your specific presentation needs.

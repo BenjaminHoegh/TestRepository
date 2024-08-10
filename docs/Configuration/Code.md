@@ -10,22 +10,34 @@ Code snippets within Markdown documents can be presented in two distinct styles:
 
 ## Configuration Syntax
 
-To configure code through the `setSetting` method processing:
+To configure the code processing settings, use the `config()->set()` and `config()->get()` methods:
+
+### Getting the Current Configuration
+
+To retrieve the current configuration for code processing:
 
 ```php
-$ParsedownExtended->setSetting('code', (boolean|array) $value);
+$configValue = $ParsedownExtended->config()->get('code');
 ```
 
-- `$value` is a boolean indicating whether inline code processing is enabled (`true`) or disabled (`false`). The default setting usually enables inline code formatting.
+### Setting the Configuration
+
+To adjust the code processing settings:
+
+```php
+$ParsedownExtended->config()->set('code', (bool|array) $value);
+```
+
+- `$value` is a boolean indicating whether inline code processing is enabled (`true`) or disabled (`false`). Alternatively, you can use an array for more detailed configuration options. By default, inline code formatting is usually enabled.
 
 ## Examples
 
 ### Disabling All Code Processing
 
-To disable the processing of all code, including inline and block code:
+To disable the processing of all code, including both inline and block code:
 
 ```php
-$ParsedownExtended->setSetting('code', false);
+$ParsedownExtended->config()->set('code', false);
 ```
 
 ### Disabling Inline Code
@@ -33,7 +45,7 @@ $ParsedownExtended->setSetting('code', false);
 To disable the formatting of inline code, preventing text surrounded by backticks from being rendered distinctly:
 
 ```php
-$ParsedownExtended->setSetting('code.inline', false);
+$ParsedownExtended->config()->set('code.inline', false);
 ```
 
 ### Disabling Block Code
@@ -41,5 +53,5 @@ $ParsedownExtended->setSetting('code.inline', false);
 To disable the processing of block code, which is usually delimited by triple backticks or indentation:
 
 ```php
-$ParsedownExtended->setSetting('code.block', false);
+$ParsedownExtended->config()->set('code.block', false);
 ```

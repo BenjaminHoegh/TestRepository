@@ -10,15 +10,27 @@ Markdown headings, marked by hash characters (`#`), indicate different levels of
 
 ## Configuration Syntax
 
-Configure headings using the `setSetting` method:
+To configure headings in ParsedownExtended, use the `config()->set()` and `config()->get()` methods:
+
+### Getting the Current Configuration
+
+To retrieve the current configuration for headings:
 
 ```php
-$ParsedownExtended->setSetting('headings', (boolean|array) $value);
+$configValue = $ParsedownExtended->config()->get('headings');
 ```
 
-This setting can be a boolean to globally enable/disable headings or an array for more detailed configurations.
+### Setting the Configuration
 
-## Parameters
+To configure the headings feature:
+
+```php
+$ParsedownExtended->config()->set('headings', (bool|array) $value);
+```
+
+This setting can be a boolean to globally enable or disable headings, or an array for more detailed configurations.
+
+## Configuration Options
 
 - **allowed** (array): Specify which heading levels are allowed.
 - **auto_anchors** (boolean): Toggle automatic permalink generation for headings.
@@ -28,7 +40,6 @@ This setting can be a boolean to globally enable/disable headings or an array fo
     - **transliterate** (boolean): Whether to transliterate characters in anchor IDs.
     - **replacements** (array): List of characters to replace in anchor IDs.
 
-
 ## Examples
 
 ### Disable Headings
@@ -36,7 +47,7 @@ This setting can be a boolean to globally enable/disable headings or an array fo
 To disable headings processing:
 
 ```php
-$ParsedownExtended->setSetting('headings', false);
+$ParsedownExtended->config()->set('headings', false);
 ```
 
 ### Custom Anchor IDs
@@ -44,7 +55,7 @@ $ParsedownExtended->setSetting('headings', false);
 Implement custom logic for anchor IDs:
 
 ```php
-$ParsedownExtended->setCreateAnchorIDCallback(function($text, $level) {
+$ParsedownExtended->config()->set('headings.custom_anchor_id_callback', function($text, $level) {
     return 'custom-anchor-' . $level . '-' . strtolower(str_replace(' ', '-', $text));
 });
 ```
@@ -54,7 +65,7 @@ $ParsedownExtended->setCreateAnchorIDCallback(function($text, $level) {
 Specify allowed heading levels:
 
 ```php
-$ParsedownExtended->setSetting('headings.allowed', ['h1', 'h2', 'h3']);
+$ParsedownExtended->config()->set('headings.allowed', ['h1', 'h2', 'h3']);
 ```
 
 ### Blacklist Heading IDs
@@ -62,5 +73,7 @@ $ParsedownExtended->setSetting('headings.allowed', ['h1', 'h2', 'h3']);
 Define a blacklist for heading IDs:
 
 ```php
-$ParsedownExtended->setSetting('headings.auto_anchors.blacklist', ['my_blacklisted_header_id', 'another_blacklisted_id']);
+$ParsedownExtended->config()->set('headings.auto_anchors.blacklist', ['my_blacklisted_header_id', 'another_blacklisted_id']);
 ```
+
+This configuration gives you complete control over how headings are processed and rendered in your Markdown documents, allowing you to tailor the content hierarchy and linking behavior to your specific needs.

@@ -10,10 +10,10 @@ Lists in Markdown documents are versatile, allowing for the creation of both ord
 
 ## Configuration Syntax
 
-To configure list processing in ParsedownExtended, use the `setSetting` method with appropriate parameters:
+To configure list processing in ParsedownExtended, use the `config()->set()` method with appropriate parameters:
 
 ```php
-$ParsedownExtended->setSetting('lists', (boolean|array) $value);
+$ParsedownExtended->config()->set('lists', (bool|array) $value);
 ```
 
 - `$value` can be a boolean to enable (`true`) or disable (`false`) list processing altogether, or an array to configure specific types of lists, such as task lists.
@@ -37,7 +37,7 @@ A simple unordered list in Markdown looks like this:
 To disable list processing:
 
 ```php
-$ParsedownExtended->setSetting('lists', false);
+$ParsedownExtended->config()->set('lists', false);
 ```
 
 ### Task Lists
@@ -53,5 +53,7 @@ Task lists allow for interactive checkboxes in your lists, ideal for to-do lists
 To disable task list processing:
 
 ```php
-$ParsedownExtended->setSetting('lists.tasks' => false);
+$ParsedownExtended->config()->set('lists.tasks', false);
 ```
+
+This documentation ensures that users have the correct context and syntax for configuring list processing in their Markdown documents using ParsedownExtended.

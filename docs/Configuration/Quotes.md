@@ -1,6 +1,5 @@
 ---
-title: Quotes
-description: Configure the processing of blockquotes in ParsedownExtended
+title: Quotes  
 ---
 
 # Quotes
@@ -11,10 +10,10 @@ Blockquotes allow for the inclusion of quoted sections from external sources wit
 
 ## Configuration Syntax
 
-Configure the processing of blockquotes using ParsedownExtended's `setSetting` method:
+Configure the processing of blockquotes using ParsedownExtended's `config()->set()` method:
 
 ```php
-$ParsedownExtended->setSetting('quotes', (boolean) $value);
+$ParsedownExtended->config()->set('quotes', (bool) $value);
 ```
 
 - `$value` is a boolean that enables (`true`) or disables (`false`) the processing of blockquotes.
@@ -26,5 +25,7 @@ $ParsedownExtended->setSetting('quotes', (boolean) $value);
 To disable the automatic conversion of text preceded by `>` into blockquotes:
 
 ```php
-$ParsedownExtended->setSetting('quotes', false);
+$ParsedownExtended->config()->set('quotes', false);
 ```
+
+This documentation ensures that users have clear instructions on how to control the processing of blockquotes within their Markdown documents using ParsedownExtended, with full context provided.

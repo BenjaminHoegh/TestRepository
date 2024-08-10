@@ -10,13 +10,25 @@ Footnotes in Markdown are an elegant solution for adding notes, citations, or ad
 
 ## Configuration Syntax
 
-To manage footnotes in your documents using ParsedownExtended, utilize the `setSetting` method:
+To manage footnotes in your documents using ParsedownExtended, utilize the `config()->set()` and `config()->get()` methods:
+
+### Getting the Current Configuration
+
+To retrieve the current configuration for footnotes:
 
 ```php
-$ParsedownExtended->setSetting('footnotes', (boolean) $value);
+$configValue = $ParsedownExtended->config()->get('footnotes');
 ```
 
-This setting enables you to activate or deactivate the footnotes feature, depending on your documentation needs.
+### Setting the Configuration
+
+To activate or deactivate the footnotes feature:
+
+```php
+$ParsedownExtended->config()->set('footnotes', (bool) $value);
+```
+
+This setting allows you to enable or disable footnotes based on your documentation needs.
 
 ## Examples
 
@@ -25,7 +37,7 @@ This setting enables you to activate or deactivate the footnotes feature, depend
 Footnotes are enabled by default. To explicitly ensure they are enabled:
 
 ```php
-$ParsedownExtended->setSetting('footnotes', true);
+$ParsedownExtended->config()->set('footnotes', true);
 ```
 
 ### Disable Footnotes
@@ -33,7 +45,7 @@ $ParsedownExtended->setSetting('footnotes', true);
 To disable footnotes, preventing the parsing and rendering of footnote syntax:
 
 ```php
-$ParsedownExtended->setSetting('footnotes', false);
+$ParsedownExtended->config()->set('footnotes', false);
 ```
 
-By configuring the footnotes feature, you can tailor how your Markdown content utilizes footnotes, providing a cleaner and more informative reading experience. Whether enabling detailed references or maintaining a streamlined document body, ParsedownExtended offers the flexibility to suit your formatting preferences. If there are additional features or configurations you'd like to explore, please let me know how I can assist further!
+By configuring the footnotes feature, you can tailor how your Markdown content utilizes footnotes, providing a cleaner and more informative reading experience. Whether enabling detailed references or maintaining a streamlined document body, ParsedownExtended offers the flexibility to suit your formatting preferences.

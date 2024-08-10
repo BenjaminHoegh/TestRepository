@@ -1,5 +1,5 @@
 ---
-title: Smarty
+title: Smartypants
 ---
 
 # Smartypants
@@ -21,10 +21,10 @@ Smartypants in ParsedownExtended automatically transforms basic ASCII punctuatio
 
 ## Configuration Syntax
 
-Configure Smartypants using the `setSetting` method:
+Configure Smartypants using the `config()->set()` method:
 
 ```php
-$ParsedownExtended->setSetting('smarty', (boolean|array) $value);
+$ParsedownExtended->config()->set('smarty', (bool|array) $value);
 ```
 
 ## Parameters
@@ -44,7 +44,7 @@ Customize Smartypants with these options:
 To customize the substitutions for a specific language or style:
 
 ```php
-$ParsedownExtended->setSetting('smarty', [
+$ParsedownExtended->config()->set('smarty', [
     'substitutions' => [
         'left-single-quote' => '&sbquo;', // Single bottom quote
         'right-single-quote' => '&lsquo;', // Single top quote
@@ -59,5 +59,7 @@ $ParsedownExtended->setSetting('smarty', [
 To enable Smartypants and automatically apply typographical enhancements:
 
 ```php
-$ParsedownExtended->setSetting('smarty', true);
+$ParsedownExtended->config()->set('smarty', true);
 ```
+
+This documentation ensures clarity and provides the full context for configuring Smartypants within ParsedownExtended, making it easy for users to apply these settings correctly in their projects.
