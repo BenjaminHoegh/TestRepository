@@ -1,9 +1,5 @@
-Certainly! Here’s the updated documentation for the "Images" feature using the `config()->get()` and `config()->set()` methods:
-
 ---
-
 title: Images
-
 ---
 
 # Images
