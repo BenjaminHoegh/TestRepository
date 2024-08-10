@@ -34,6 +34,7 @@ const config: Config = {
       {
         docs: {
           routeBasePath: '/',
+          lastVersion: 'current',
           sidebarPath: './sidebars.ts',
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
@@ -64,6 +65,11 @@ const config: Config = {
         src: 'https://github.com/BenjaminHoegh/ParsedownExtended/raw/gh-pages/img/parsedownExtended.png',
       },
       items: [
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
+          dropdownActiveClassDisabled: true,
+        },
         {
           href: 'https://github.com/BenjaminHoegh/TestRepository',
           label: 'GitHub',
