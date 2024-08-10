@@ -14,7 +14,7 @@ ParsedownExtended supports a range of emphasis styles, which can be individually
 
 - **bold:** Applies bold formatting.
 - **italic:** Applies italic formatting.
-- **marking:** Applies highlighting using the `<mark>` tag.
+- **mark:** Applies highlighting using the `<mark>` tag.
 - **strikethroughs:** Applies strikethrough formatting.
 - **insertions:** Applies underline formatting typically used to indicate insertions.
 - **subscript:** Applies subscript formatting.
@@ -56,7 +56,7 @@ Enable only bold and marked text, while disabling others:
 ```php
 $ParsedownExtended->config()->set('emphasis', [
     'bold' => true,
-    'marking' => true,
+    'mark' => true,
 ]);
 ```
 

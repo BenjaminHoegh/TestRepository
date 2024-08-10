@@ -12,9 +12,9 @@ Smartypants in ParsedownExtended automatically transforms basic ASCII punctuatio
 
 | ASCII symbol | Replacements    | HTML Entities       | Substitution Keys                  |
 | ------------ | --------------- | ------------------- | ---------------------------------- |
-| `''`         | &lsquo; &rsquo; | `&lsquo;` `&rsquo;` | `"left-single-quote"`, `"right-single-quote"` |
-| `""`         | &ldquo; &rdquo; | `&ldquo;` `&rdquo;` | `"left-double-quote"`, `"right-double-quote"` |
-| `<< >>`      | &laquo; &raquo; | `&laquo;` `&raquo;` | `"left-angle-quote"`, `"right-angle-quote"`   |
+| `''`         | &lsquo; &rsquo; | `&lsquo;` `&rsquo;` | `"left_single_quote"`, `"right_single_quote"` |
+| `""`         | &ldquo; &rdquo; | `&ldquo;` `&rdquo;` | `"left_double_quote"`, `"right_double_quote"` |
+| `<< >>`      | &laquo; &raquo; | `&laquo;` `&raquo;` | `"left_angle_quote"`, `"right_angle_quote"`   |
 | `...`        | &hellip;        | `&hellip;`          | `"ellipsis"`                        |
 | `--`         | &ndash;         | `&ndash;`           | `"ndash"`                           |
 | `---`        | &mdash;         | `&mdash;`           | `"mdash"`                           |
@@ -46,10 +46,10 @@ To customize the substitutions for a specific language or style:
 ```php
 $ParsedownExtended->config()->set('smarty', [
     'substitutions' => [
-        'left-single-quote' => '&sbquo;', // Single bottom quote
-        'right-single-quote' => '&lsquo;', // Single top quote
-        'left-double-quote' => '&bdquo;', // Double bottom quote
-        'right-double-quote' => '&ldquo;' // Double top quote
+        'left_single_quote' => '&sbquo;', // Single bottom quote
+        'right_single_quote' => '&lsquo;', // Single top quote
+        'left_double_quote' => '&bdquo;', // Double bottom quote
+        'right_double_quote' => '&ldquo;' // Double top quote
     ]
 ]);
 ```

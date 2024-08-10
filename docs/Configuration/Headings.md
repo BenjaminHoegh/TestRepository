@@ -32,7 +32,7 @@ This setting can be a boolean to globally enable or disable headings, or an arra
 
 ## Configuration Options
 
-- **allowed** (array): Specify which heading levels are allowed.
+- **allowed_levels** (array): Specify which heading levels are allowed.
 - **auto_anchors** (boolean): Toggle automatic permalink generation for headings.
     - **blacklist** (array): List of IDs to exclude from automatic anchor generation.
     - **delimiter** (string): Character(s) to use for separating words in anchor IDs.
@@ -65,7 +65,7 @@ $ParsedownExtended->config()->set('headings.custom_anchor_id_callback', function
 Specify allowed heading levels:
 
 ```php
-$ParsedownExtended->config()->set('headings.allowed', ['h1', 'h2', 'h3']);
+$ParsedownExtended->config()->set('headings.allowed_levels', ['h1', 'h2', 'h3']);
 ```
 
 ### Blacklist Heading IDs

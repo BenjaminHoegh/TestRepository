@@ -34,8 +34,8 @@ config()->set('abbreviations', (bool|array) $value);
 
 The Abbreviations feature supports the following settings:
 
-- **allow_custom_abbr** (bool): Allows the definition of custom abbreviations directly within your Markdown content. This option is enabled by default.
-- **predefine** (array): Provides a list of predefined abbreviations and their full meanings to ensure consistency across your documents.
+- **allow_custom** (bool): Allows the definition of custom abbreviations directly within your Markdown content. This option is enabled by default.
+- **predefined** (array): Provides a list of predefined abbreviations and their full meanings to ensure consistency across your documents.
 
 ## Examples
 
@@ -53,7 +53,7 @@ To set up a predefined list of abbreviations:
 
 ```php
 $ParsedownExtended->config()->set('abbreviations', [
-    'predefine' => [
+    'predefined' => [
         'CSS' => 'Cascading Style Sheets',
         'HTML' => 'HyperText Markup Language',
         'JS' => 'JavaScript',
@@ -67,8 +67,8 @@ To restrict usage to only predefined abbreviations and disable custom abbreviati
 
 ```php
 $ParsedownExtended->config()->set('abbreviations', [
-    'allow_custom_abbr' => false,
-    'predefine' => [
+    'allow_custom' => false,
+    'predefined' => [
         'CSS' => 'Cascading Style Sheets',
         'HTML' => 'HyperText Markup Language',
         'JS' => 'JavaScript',
