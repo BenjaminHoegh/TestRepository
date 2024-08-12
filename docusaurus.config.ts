@@ -28,15 +28,8 @@ const config: Config = {
       'classic',
       {
         docs: {
+          excludeNextVersionFromDropdown: true,
           routeBasePath: '/',
-          lastVersion: 'current',
-          versions: {
-            current: {
-              label: 'Current',
-              path: '/',
-              badge: true,
-            },
-          },
           sidebarPath: './sidebars.ts',
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
