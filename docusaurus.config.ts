@@ -28,7 +28,7 @@ const config: Config = {
       'classic',
       {
         docs: {
-          excludeNextVersionFromDropdown: true,
+          includeCurrentVersion: false,
           routeBasePath: '/',
           sidebarPath: './sidebars.ts',
           remarkPlugins: [remarkMath],
